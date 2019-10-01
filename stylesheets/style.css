@@ -1,0 +1,41 @@
+body  {
+  background-image: url("../assets/background.png");
+  background-repeat: no-repeat;
+  background-size:  100%;
+
+}
+
+.logo {
+  margin-left: 50px;
+}
+
+.github-logo {
+  float: right;
+}
+
+.topnav {
+  overflow: hidden;
+  background-color: #FFFFFF;
+  border-bottom-color: #685353;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+}
+
+.topnav a {
+  float: left;
+  color: #f2f2f2;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  font-size: 17px;
+}
+
+.topnav a:hover {
+  background-color: #ddd;
+  color: black;
+}
+
+.topnav a.active {
+  background-color: #4CAF50;
+  color: white;
+}

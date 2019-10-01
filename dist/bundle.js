@@ -93,13 +93,7 @@
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-var sayHello = function sayHello() {
-  alert("Hello");
-};
 
-window.onload = function () {
-  sayHello();
-};
 
 /***/ })
 
