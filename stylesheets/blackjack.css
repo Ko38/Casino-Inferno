@@ -1,0 +1,117 @@
+html {
+    height: 100%;
+}
+
+body  {
+  background-image: url("../assets/blackjackBackground.jpg");
+  background-repeat: no-repeat;
+  background-size:  100% 100%;
+  height: 100%;
+}
+
+.main-content {
+  width: 100%;
+  height: 80%;
+}
+
+
+.navbar {
+  background-image: url("../assets/bottomBarBackground.jpg");
+  /*background-repeat: no-repeat;
+   background-size:  100% 100%;
+  height: 100%; */
+  overflow: hidden;
+  background-color: #333;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  height: 15%;
+}
+
+.navbar a {
+  float: left;
+  display: block;
+  color: #f2f2f2;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  font-size: 17px;
+}
+
+.navbar a:hover {
+  background: #f1f1f1;
+  color: black;
+}
+
+.navbar a.active {
+  background-color: #4CAF50;
+  color: white;
+}
+
+.rules {
+  position: absolute;
+
+  margin:auto;
+  right:0;
+  left:0;
+  top:200px;
+}
+
+.placeBetButton {
+  border: none;
+  background-color: rgba(0,0,0,0.5);;
+  border:2px solid #553030;
+  padding: 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+  /* border-radius: 25px;
+  width: 200px; */
+  border-radius: 50%;
+  width: 150px;
+  height: 150px;
+}
+
+.placeBetButton:hover {
+  opacity: 0.5;
+}
+
+.placeBetButton1 {
+  position: absolute;
+  left: 100px;
+  bottom: 220px;
+}
+
+.placeBetButton2 {
+  position: absolute;
+
+  margin:auto;
+  right:0;
+  left:0;
+  bottom:180px;
+}
+
+.placeBetButton3 {
+  position: absolute;
+  right: 100px;
+  bottom: 220px;
+}
+
+.chipTray {
+  margin-top: 10px;
+  text-align: center;
+}
+
+.chip:hover {
+  cursor: pointer;
+}
+
+.selected {
+  border:5px solid #FFFFFF;
+  border-radius: 50%;
+  border-style: dashed ;
+box-sizing: content-box;
+}

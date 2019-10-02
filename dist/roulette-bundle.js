@@ -81,21 +81,52 @@
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = "./entry.js");
+/******/ 	return __webpack_require__(__webpack_require__.s = "./js/roulette/roulette-entry.js");
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ "./entry.js":
-/*!******************!*\
-  !*** ./entry.js ***!
-  \******************/
-/*! no static exports found */
-/***/ (function(module, exports) {
+/***/ "./js/roulette/roulette-entry.js":
+/*!***************************************!*\
+  !*** ./js/roulette/roulette-entry.js ***!
+  \***************************************/
+/*! no exports provided */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _setUpBankroll_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../setUpBankroll.js */ "./js/setUpBankroll.js");
 
 
+window.onload = function () {
+  Object(_setUpBankroll_js__WEBPACK_IMPORTED_MODULE_0__["default"])();
+};
+
+/***/ }),
+
+/***/ "./js/setUpBankroll.js":
+/*!*****************************!*\
+  !*** ./js/setUpBankroll.js ***!
+  \*****************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+var setUpBankroll = function setUpBankroll() {
+  var bankroll = localStorage.getItem('bankroll');
+
+  if (!bankroll) {
+    bankroll = "100.00";
+    localStorage.setItem('bankroll', bankroll);
+  }
+
+  document.getElementById("bankroll").innerHTML = "BANKROLL: $".concat(bankroll);
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (setUpBankroll);
 
 /***/ })
 
 /******/ });
-//# sourceMappingURL=bundle.js.map
+//# sourceMappingURL=roulette-bundle.js.map

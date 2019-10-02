@@ -2,9 +2,14 @@
 var path = require('path');
 
 module.exports = {
-  entry: './entry.js',
+  entry: {
+    index: './js/index-entry.js',
+    blackjack: './js/blackjack/blackjack-entry.js',
+    baccarat: './js/baccarat/baccarat-entry.js',
+    roulette: './js/roulette/roulette-entry.js'
+  },
   output: {
-    filename: './bundle.js',
+    filename: './[name]-bundle.js',
   },
   module: {
     rules: [

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Casino Inferno</title>
+    <script type="text/javascript" src="./dist/blackjack-bundle.js"></script>
+    <link rel="stylesheet" type="text/css" href="./stylesheets/css_custom_reset.css"/>
+    <link rel="stylesheet" type="text/css" href="./stylesheets/topnav.css"/>
+    <link rel="stylesheet" type="text/css" href="./stylesheets/blackjack.css"/>
+  </head>
+  <body>
+    <div class="topnav">
+      <img src="./assets/github-logo.jpg" height="58px" width="58px" alt="">
+      <img src="./assets/logo.png" class="logo" height="58px" width="180px" alt="">
+      <a href="./index.html" class="x">
+        <img alt="" src="./assets/exitButton.png" width="50" height="50">
+      </a>
+      <span class="bankroll" id="bankroll"></span>
+    </div>
+    <div class="main-content">
+      <div id="dealerCards">
+        1
+      </div>
+      <img class="rules" src="./assets/blackjackRules.png"/>
+      <button class="placeBetButton placeBetButton1">
+
+      </button>
+      <button class="placeBetButton placeBetButton2">
+      
+      </button>
+      <button class="placeBetButton placeBetButton3">
+      
+      </button>
+    </div>
+    <div class="navbar">
+      <div class="chipTray">
+        <img id="oneDollarChip" class="chip selected" data-v-e8b8e7b0=""
+          src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGYAAABmCAMAAAAOARRQAAACW1BMVEUAAAA4bAApUQAiRgAgRAAkSwAjRQAiRwAhRQBIiABPkgFUnAAhRgAkSgAjSAAiSAAiRgAiRwAhRwBNjwEhRgBAegAhRQAhRgAiRgAiRgApUQBVngBLjQBXogBFgwAiRwAgRABWoQBPlQBPlQA0ZgBWoABVnwBWnwBTnAAjRwBSmQBAeQBYowBNkgAuWwA3agAhRgAzZAFQlgBKiwEmTAAyYwApUgBIiQA6bwBCfgBFhAAwXwBDfwBMjwE9dQAkSgBJiwAsVwBOlABCfgBUnwA+dQDq7OdUnABSmwDs7upQmgDt7uxPlgDV4scAAABXogCNvFlaoA7w8O7m6t9OmQDp7OQhRgCry4VkpR1NkAElTADh6NlWnQpdohQ8dQBHiQBLjAFYnwmGt09MlwB8sj9yrjNEggGbw25qqSS91aGYwmkoUgBWoADn6+Lg59be5tPR4MBtqirm6OPa5M3X4skyYgDi5ODD2KuTv2NNkwCgxnZqa2k5bgAwXgArVwDF2a5hpBlCfQA1aADB2Ke10ZauzYmjx3qAtUPw7/De4N3Z2tfN3rm6050/QD7o6eXO0cuz0JFvhFeKuVKDt0lgfUFUgyFSkwouWwDU1tKpraQkJSRmpiHAw768v7i2ubOQvF5Nhg/GycSus6mIlnplf0pqljlVeDH08vjb4tSjqJ2irZaowI6Uooadt4GKm3iMpXF/jm95jGZ4kV1ghDlPfB5WjBoRERHJ17maoJNuiU9+rE1biSljnSQ/bw+en5x/f36Cn2VcXVxacEM5OThZfzK3xamPsWhWV1V5m1TGmpbtAAAARnRSTlMACBL57SUL6isfE+6DNNG7onZQDZv+yMKtYTw0KfLv493RotvVv62QakhH7uS7paGNdFQ9HvXt6ufiyLeCdVlZ+vfrmnrBTUGRdQAACwJJREFUaN7tmvdfE2ccx0nCcIKAKFrbukerVbv37t3z3F0wl3HxsgOZhJAwEggNK4AIWBeguFe1aq1atbt2rz+rzw3DXbiDBO3r1R/8/CCSkHvzHc/3+T7fh6LHeqz/nTQaTXV19SJO1Rqkov9Ai9Y8/+HmTRsW83r//Q071r/1zJpFj9QKhNiyafEepCYcCQBAEARFsa/sePP5NdWPxqrqJ7auX/ckQogEURyHSnleef2Dt9c8PEjzzBbE4M1w7s2REwcE5Xn3ldfffOEhKU9s3r5HNIQwtOulam83EDgS5QkEXvtgzUNYsmbLdsEQHhOKGeG0SGMsRIjveAL9r725cJ6uW7h1nQgRnzYEMYngEKKIotz9NR+9rZ1XUDaLcc9i/HYoodj90xgcUAHXszuXFm7Q1u1yCJIjLMWEHbI3gcfl2vh2oQ7bgkxpkj0Gdzi7LNMYS5fTgV6UiOp3vbpbW4jDntjcJDMFANpvsHa0QYhZTCZT1AJJ2NZhNfhpICEhx720s0STfxpvkjkMgL3nwu0maNKHrY2GeiRDozWsRy+0h8/tlYCAO/3ScyV5e2ydlAIIZ7Btv9HU0RnySqoA7g11dpiM+9uCTmIaxKYTb2jz9JiUAvBTjXrS3htswc0AlwmY8ZZgr53UN56aDpIHcUo0eXlMEnyCPtoLmwfr+wgCVxBB9NUPNsPeozSR5WS68/Hbws0ShxEth02WAz5JoIGZQjJLk8N3wGI63EJk45N477m5/bYF5ZjXCwSKL/5ZzOAVH9oE2PP3rnx6BOnTK/fOpx6QzA5D7LO4T+AAr9fd/V7lXIHZ+uSeJoc16OA+4TC0YQN+wRJAHfvhyKUTp6dGR5IjI6OHzly79N0PxyjRIv8A1mZwAG4JB62O/uMvV2lmrzDbUVzGo2316HejG+32fU4Bkpr87saZ0VYMZoUlp87e+O6rY8L7zn12eyON7K9vi45Trkj50lkDswlR+uIQ6v0E3YU1d9L8U6jJIyemEAOTCpFaD1078hXBc+jOZqyLJvx6CON9bMK2TDuLMR8+2dSEdxkxbH881IhZDEBInolrSWOWIUMZR7+dYAXPGSxYYyi+H8PILtwdKVulUc/ldU17cPQLYYgzZm824IA35fYFwRBF0MHTtycpfoEZmu1j+zEkvR+4bCtLVI1ZjzfhtFWoj6S9kw8+e/faCFSmiL4b/fbuMT4ROu2kUFWtNNWtW6KGeWYx3mT2tQnPjO6j+erx6dlWEaIKSl6c4FOO3hcVXmjzEf22pxeotDA7kDF4mBSMGeBzzPPbhSxEnYOd/Y3i821A/HAYpxLMMmXM84u5QEb5x5IxP+BtkVPUORO83/wxngOjBoDMWa3YVq5HDw7FhZ8z8UmWmjiDKHlxLt7l7TGYhN8yHkqh6JQqYF7YgOPeLtHqA/ySnjxxEMtPMPntJF84DogP6PL2MysUoqN5C/nM3y58KObj6ljgUhJi+XJGb7NcffPFhI+0+ynFtbNoB4GSWfzQIM0FZuJQ3hTEOc2nGz0ofm+lXbrlWkWfDdtJbonA5nrkMuLeRbIQDPbTJPoUqG/mngBJ+7A7ouC1rSkcDB/ubbdbMLK3D6Bc/hJ9tADBkTvHEKavl8Qs9vbew8NUorhqZgWgkAFm4A3Vx41BAv385BkjVpCMF3/gnBA0xutDXmAmcJdtyYzavEHcO4gWvYnbCtk7I1hhgqN3KG7DNelbhCYkEKnQ5obmXQoXZDB1cFvl+euqj0NSdGfr9a9wpA6TQWxzespy6+dbLCF2sFbYyWXzH6ppBpPJpHKdu3CZy+lOaBX6XirDVOWGhgUCxtlhCqH/sl8mVSjk6ZMnT/5MQqUk+IULasjU4RQC4LJVauSY1z0CBoT0ei/6WnNdzWNTn9TV1X2suM0dvM71IV69PiQ8rN+2TI6pfs0jtik+e5j7ev80VIKQ5KFf61Qx8AwfnLDdJzRDbttKOWbRUyKmwRC1AvTlypSi90d/+r1uFszUZc5r1qihQdjdI2vl1VP7FCtiglgj4HaAJFQqKMhhs2FG/jEjTCMWbBBTrViOWZjF7OMbDfeXB5UwJ76uqzv5tTqm9VYD33zsEzDU8WKtCsZqOQq44owpY77++8Tv6hjsCwphjlqsIqZbBQMahiz1HOYmhEoh/vhs8uAnc2HqLUMNfKoRiRkYjxxzAyo+x0jC1lkw8HM5ZoY1zz5IaNFpN9XKcx4Y5DSzitOedctT4HbBGNFpQgqYlVNAizDShHYfaZ0P5uBfDVxCW9QSetGrASBdnqkrI/PBmL43S5enO3d5Vr/aT0iLDbh/aD6Yqz8S0mITyC02mo01lKx0ui7OB/MNJSudNbmlU7PTxUo3gib3JdUjwK9qGwEGrQ2yjSA9YyPYnXbLtjViYhSqgJKq25qpnpBtawkmt+dYnRZzAIib9L2zsNBNGsZPyTZpz8xN+sWNLoqnmMWWw3OzFStUVofYcpiBkAEzWo7SnWkWNVB4ny/YxjdQFNcMFCa7T2ig2oK+Phw1UGlm5lFqdyYAhgfHYlEotIPg/I1C+7QwLbaDMBobGxxGNaBqBmb1RhfBNbeY2NyiFTpFFkKBFl+2ucX45tam0Nxq30iw9JC0VQ+gra0AitHqAJJWfYjOKLXqmt0v1cgPHsT9E2T+HOOYk5AdPFib0sEDeS2Rkh+jUncv5I2BsXGz7BjlSCseo4q0z/XUEKF49vDIJf6d0Xw5pqAXyA6FnojyoVDzzsvdrPyIC87fwmCegXEC2RGXcKkccYtKKyIuID+wg/6beXGMh3EgP7B7etQO7EXbXu72ELLxA+LcujonB5qsOODHD5bs+CHNqI0fijTLbWmQM0wBnl8OzZFvxljQCXKGKW4UmSI1LS2PBMTRkHGgWRgNAfbynxg5W1jGxr1AGA01Dxi5V/R+qptRHQ0hcyp1Paww6BpwZgddqfO3RoyqplisTjN4MOhyDvCDLuBiuDWjqpIKJpPqi5Nw7BQa20FxbEewlz+/aoFKnYw9POwF4tgOorHdqTFIxvsCEYYb26mbs+1pm4saj7YPEzgQh5DCoPPyF9+YIJJ004nGh4adOJgeQgKcGG6PjnuOM9khpKrbIgGvtTF3pAoI6sfvP//maiskSdJIktBijx82hOiZI9VGK8gwZVVzTbyXMxEPLR0Qn3OYxYaUPfbj90HrgXD4wFCXocXbYAbigPicbECcZnSVRXPpxVpdj1tl3A3MDQ0UAZBtZsRQHndTLkZSmdXdtrSC4Tjqw3sAZhneoyLD1KKFmQenHHHmeRUBEKUizyucknIm4p7XxQpIMwxqM/LU0gqdrZ8q/JqIzTC6WnH15+W3WsaWTs249IqRJGYxIVkwkozNuPRyd6PoI4/lz3lxl87W7c69whvCJBrKucKjXBGmrLLQu89VaxlUEHCp6DHpheQYLXvTk2CY8qrCr1e31RbbugOSSyjzuEm2LaPNP6sUZ8qyAq9XRcdVlutsiWkQGJRfFg+CbOhdPTbdylXaeV59L9hVxiAQECtCs5GEnEj+H2OzuPIpBGHWLkGxn7dW15bpmOP9LFC7yCfc6Qije3q5fOHPI0S7yot1PZkaN0XvzRHNul0Jm65sxZLVRQ+t0qWrlqEgRbozroCbpSgCiUp53P2uzPGIrXjF8ncWlBY9Cmm0C97ZtbKYsdkiPd2JTCaTSBzvidhsTFnFkqoFWjEmjwpVtaR2xdpiUWtXLqvcViLk1qP/c57SUi2v0lL0TdFjPdb/Tf8CFnqWzzQz+W0AAAAASUVORK5CYII="/>
+        <img id="fiveDollarChip" class="chip" src="./assets/chip_5.png" />
+        <img id="tenDollarChip" class="chip" src="./assets/chip_10.png" />
+        <img id="twentyFiveDollarChip" class="chip" src="./assets/chip_25.png" />  
+      </div>
+    </div>
+
+  </body>
+</html>
