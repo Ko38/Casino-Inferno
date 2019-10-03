@@ -1,9 +1,11 @@
 import setUpBankroll from "../setUpBankroll.js";
+import BlackjackGameView from "./blackjackGameView";
+
 
 window.onload = () => {
   setUpBankroll();
-  let oneDollarChip = document.getElementById("oneDollarChip");
-  oneDollarChip.onclick = () => {
-    console.log("Clicked")
-  };
+  let blackjackGameView = new BlackjackGameView();
+  blackjackGameView.startGame();
+  
 };
+
