@@ -12,6 +12,7 @@ body  {
 .main-content {
   width: 100%;
   height: 80%;
+  display: flex;
 }
 
 
@@ -73,8 +74,8 @@ body  {
   /* border-radius: 25px;
   width: 200px; */
   border-radius: 50%;
-  width: 150px;
-  height: 150px;
+  width: 130px;
+  height: 130px;
 }
 
 .placeBetButton:hover {
@@ -83,7 +84,7 @@ body  {
 
 .placeBetButton2{
   position: absolute;
-  left: 100px;
+  left: 10%;
   bottom: 220px;
 }
 
@@ -93,12 +94,12 @@ body  {
   margin:auto;
   right:0;
   left:0;
-  bottom:180px;
+  bottom: 20%;
 }
 
 .placeBetButton0 {
   position: absolute;
-  right: 100px;
+  right: 10%;
   bottom: 220px;
 }
 
@@ -138,4 +139,188 @@ body  {
   transform: translate(-50%, -50%);
   font-weight: bold;
   font-family: 'Lato', Calibri, Arial, sans-serif;
+}
+
+.spades {
+  width: 90px;
+  height: 100px;
+  background: url(../assets/suits.png) 0 0;
+}
+
+.hearts {
+  width: 90px;
+  height: 100px;
+  background: url(../assets/suits.png) -105px 0;
+}
+
+.diamonds{
+  width: 90px;
+  height: 100px;
+  background: url(../assets/suits.png) 0 -100px;
+}
+
+.clubs {
+  width: 90px;
+  height: 100px;
+  background: url(../assets/suits.png) -105px -100px;
+}
+
+.card {
+  width: 98px;
+  height: 138px;
+  background: white;
+  border-radius: 12px;
+
+}
+
+.value {
+
+  margin-top: 5px;
+  margin-left: 5px;
+  font-family: 'Lato', Calibri, Arial, sans-serif;
+  font-size: 24px;
+}
+
+.seat0card0 {
+  position: absolute;
+  right: 14%;
+  bottom: 48%;
+}
+
+.seat0card1 {
+  position: absolute;
+  right: 12%;
+  bottom: 50%;
+}
+
+.seat0card2 {
+  position: absolute;
+  right: 10%;
+  bottom: 52%;
+}
+
+.seat0card3 {
+  position: absolute;
+  right: 8%;
+  bottom: 54%;
+}
+
+.seat0card4 {
+  position: absolute;
+  right: 6%;
+  bottom: 56%;
+}
+
+.seat0card5 {
+  position: absolute;
+  right: 4%;
+  bottom: 58%;
+}
+
+.seat0card6 {
+  position: absolute;
+  right: 2%;
+  bottom: 60%;
+}
+
+.seat0card7 {
+  position: absolute;
+  right: 0%;
+  bottom: 62%;
+}
+
+.seat2card0 {
+  position: absolute;
+  left: 12%;
+  bottom: 48%;
+}
+
+.seat2card1 {
+  position: absolute;
+  left: 14%;
+  bottom: 50%;
+}
+
+.seat2card2 {
+  position: absolute;
+  left: 16%;
+  bottom: 52%;
+}
+
+.seat2card3 {
+  position: absolute;
+  left: 18%;
+  bottom: 54%;
+}
+
+.seat2card4 {
+  position: absolute;
+  left: 20%;
+  bottom: 56%;
+}
+
+.seat2card5 {
+  position: absolute;
+  left: 22%;
+  bottom: 58%;
+}
+
+.seat2card6 {
+  position: absolute;
+  left: 24%;
+  bottom: 60%;
+}
+
+.seat2card7 {
+  position: absolute;
+  left: 26%;
+  bottom: 62%;
+}
+
+.seat1card0 {
+  position: absolute;
+  left: 44%;
+  bottom: 42%;
+}
+
+.seat1card1 {
+  position: absolute;
+  left: 46%;
+  bottom: 44%;
+}
+
+.seat1card2 {
+  position: absolute;
+  left: 48%;
+  bottom: 46%;
+}
+
+.seat1card3 {
+  position: absolute;
+  left: 50%;
+  bottom: 48%;
+}
+
+.seat1card4 {
+  position: absolute;
+  left: 52%;
+  bottom: 50%;
+}
+
+.seat1card5 {
+  position: absolute;
+  left: 54%;
+  bottom: 52%;
+}
+
+.seat1card6 {
+  position: absolute;
+  left: 56%;
+  bottom: 54%;
+}
+
+.seat1card7 {
+  position: absolute;
+  left: 58%;
+  bottom: 56%;
 }

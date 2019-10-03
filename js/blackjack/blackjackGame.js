@@ -22,7 +22,7 @@ class BlackjackGame {
   }
 
   deal() {
-
+    
   }
 }
 
