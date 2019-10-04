@@ -7,6 +7,18 @@ class Card {
     this.value = value;
   }
 
+  isJack() {
+    return this.value === "J";
+  }
+
+  isOneEyed() {
+    return this.suit === "hearts" || this.suit === "spades";
+  }
+
+  isOneEyedJack() {
+    return this.isJack() && this.isOneEyed();
+  }
+
   static allCards(numOfDecks = 1){
     let cards = [];
     for(let i = 0; i < numOfDecks; i++) {
@@ -19,5 +31,5 @@ class Card {
     return cards;
   }
 }
-
-export default Card;
+module.exports = Card;
+// export default Card;

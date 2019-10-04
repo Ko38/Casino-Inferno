@@ -118,6 +118,7 @@ window.onload = function () {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _deck__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./deck */ "./js/blackjack/deck.js");
+/* harmony import */ var _deck__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_deck__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _hand__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./hand */ "./js/blackjack/hand.js");
 /* harmony import */ var _dealerHand__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./dealerHand */ "./js/blackjack/dealerHand.js");
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -138,7 +139,8 @@ function () {
 
     this.betAmounts = [0, 0, 0];
     this.playerHands = [null, null, null];
-    this.deck = new _deck__WEBPACK_IMPORTED_MODULE_0__["default"](2);
+    this.deck = new _deck__WEBPACK_IMPORTED_MODULE_0___default.a(2);
+    console.log(this.deck);
     this.dealerHand = null;
     this.render = render;
     this.dealerHitting = false;
@@ -430,11 +432,9 @@ function () {
 /*!******************************!*\
   !*** ./js/blackjack/card.js ***!
   \******************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/*! no static exports found */
+/***/ (function(module, exports) {
 
-"use strict";
-__webpack_require__.r(__webpack_exports__);
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
@@ -454,7 +454,22 @@ function () {
     this.value = value;
   }
 
-  _createClass(Card, null, [{
+  _createClass(Card, [{
+    key: "isJack",
+    value: function isJack() {
+      return this.value === "J";
+    }
+  }, {
+    key: "isOneEyed",
+    value: function isOneEyed() {
+      return this.suit === "hearts" || this.suit === "spades";
+    }
+  }, {
+    key: "isOneEyedJack",
+    value: function isOneEyedJack() {
+      return this.isJack() && this.isOneEyed();
+    }
+  }], [{
     key: "allCards",
     value: function allCards() {
       var numOfDecks = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
@@ -515,7 +530,7 @@ function () {
   return Card;
 }();
 
-/* harmony default export */ __webpack_exports__["default"] = (Card);
+module.exports = Card; // export default Card;
 
 /***/ }),
 
@@ -529,6 +544,7 @@ function () {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _card__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./card */ "./js/blackjack/card.js");
+/* harmony import */ var _card__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_card__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _hand__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./hand */ "./js/blackjack/hand.js");
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
@@ -569,19 +585,17 @@ function (_Hand) {
 /*!******************************!*\
   !*** ./js/blackjack/deck.js ***!
   \******************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
 
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _card__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./card */ "./js/blackjack/card.js");
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
-
+//import Card from "./card";
+var Card = __webpack_require__(/*! ./card */ "./js/blackjack/card.js");
 
 var Deck =
 /*#__PURE__*/
@@ -596,13 +610,52 @@ function () {
   _createClass(Deck, [{
     key: "shuffle",
     value: function shuffle() {
-      this.cards = _card__WEBPACK_IMPORTED_MODULE_0__["default"].allCards(this.numOfDecks);
+      this.cards = Card.allCards(this.numOfDecks);
 
       for (var i = this.cards.length - 1; i > 0; i--) {
         var j = Math.floor(Math.random() * i);
         var temp = this.cards[i];
         this.cards[i] = this.cards[j];
         this.cards[j] = temp;
+      }
+    }
+  }, {
+    key: "removeOneCard",
+    value: function removeOneCard(value) {
+      for (var i = 0; i < this.cards.length; i++) {
+        if (this.cards[i].value === value) {
+          this.cards.splice(i, 1);
+          break;
+        }
+      }
+    }
+  }, {
+    key: "removeOneCardNotOneEyed",
+    value: function removeOneCardNotOneEyed(value) {
+      for (var i = 0; i < this.cards.length; i++) {
+        if (this.cards[i].value === value && (this.cards[i].suit === "clubs" || this.cards[i].suit === "diamonds")) {
+          this.cards.splice(i, 1);
+          break;
+        }
+      }
+    }
+  }, {
+    key: "removeOneCardOneEyed",
+    value: function removeOneCardOneEyed(value) {
+      for (var i = 0; i < this.cards.length; i++) {
+        if (this.cards[i].value === value && (this.cards[i].suit === "spades" || this.cards[i].suit === "hearts")) {
+          this.cards.splice(i, 1);
+          break;
+        }
+      }
+    }
+  }, {
+    key: "removeAllCardsWith",
+    value: function removeAllCardsWith(value) {
+      for (var i = 0; i < this.cards.length; i++) {
+        if (this.cards[i].value === value) {
+          this.cards.splice(i, 1);
+        }
       }
     }
   }, {
@@ -643,12 +696,22 @@ function () {
       var num = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 26;
       return this.cards.length < num;
     }
+  }, {
+    key: "cardsLeft",
+    value: function cardsLeft() {
+      return this.cards.length;
+    }
+  }, {
+    key: "decksLeft",
+    value: function decksLeft() {
+      return this.cardsLeft() / 52;
+    }
   }]);
 
   return Deck;
 }();
 
-/* harmony default export */ __webpack_exports__["default"] = (Deck);
+module.exports = Deck; // export default Deck;
 
 /***/ }),
 
@@ -662,6 +725,7 @@ function () {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _card__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./card */ "./js/blackjack/card.js");
+/* harmony import */ var _card__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_card__WEBPACK_IMPORTED_MODULE_0__);
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
