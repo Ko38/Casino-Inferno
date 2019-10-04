@@ -1,4 +1,4 @@
-const SUITS = ["Spades", "Diamonds", "Hearts", "Clubs"];
+const SUITS = ["spades", "diamonds", "hearts", "clubs"];
 const VALUES = ["A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K"];
 
 class Card {

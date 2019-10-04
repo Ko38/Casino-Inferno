@@ -2,20 +2,53 @@ import BlackjackGame from "./blackjackGame.js";
 
 class BlackjackGameView {
   constructor() {
-    this.game = new BlackjackGame();
-    let seat0 = document.getElementById("seat0");
-    let seat1 = document.getElementById("seat1");
-    let seat2 = document.getElementById("seat2");
-    this.seats = [seat0, seat1, seat2];
+    this.game = new BlackjackGame(this.render.bind(this));
+    this.seats = [
+      document.getElementById("seat0"), document.getElementById("seat1"), 
+      document.getElementById("seat2")
+    ];
     this.selectedChipAmount = 1;
     this.setUpSelectChipEvents();    
+    this.hideAllCards();
+  }
+
+  hideAllCards() {
+    for(let seatNo = 0; seatNo < 3; seatNo++) {
+      for (let i = 0; i < 8; i++) {
+        document.getElementById(`card${seatNo}${i}`).style.visibility = "hidden";
+      } 
+    }
+  }
+
+  setUpPlayerDecisionButtons() {
+    document.getElementById("left-buttons").innerHTML = 
+      `<button class="nav-bar-button" id="hit-button">HIT</button>
+        <button class="nav-bar-button" id="double-button">DOUBLE</button>`;
+    document.getElementById("right-buttons").innerHTML =
+      `<button class="nav-bar-button" id="stand-button">STAND</button>
+        <button class="nav-bar-button" id="split-button">SPLIT</button>`;
+    document.getElementById("hit-button").onclick = () => {
+      this.game.hit();
+    };
+    document.getElementById("stand-button").onclick = () => {
+      this.game.stand();
+    };
+    document.getElementById("double-button").onclick = () => {
+      this.game.double();
+    };
+    document.getElementById("split-button").onclick = () => {
+      this.game.split();
+    };
   }
 
   startGame() {
     this.setUpPlaceBetEvents();
     this.setUpClearEvents();
     document.getElementById("deal-button").onclick = () => {
-      this.game.deal();
+      if(this.game.deal()) {
+        this.setUpPlayerDecisionButtons();
+      }
+
     };
   }
 
@@ -56,6 +89,39 @@ class BlackjackGameView {
         this.seats[i].innerHTML = "";
       }
     };
+  }
+
+  render() {
+    for(let seatNo = 0; seatNo < this.game.playerHands.length; seatNo++) {
+      if (!this.game.playerHands[seatNo]) {
+        continue;
+      }
+      for (let cardNo = 0; cardNo < this.game.playerHands[seatNo].cards.length; cardNo++) {
+        let card = this.game.playerHands[seatNo].cards[cardNo];
+        if (card) {
+          document.getElementById(`card${seatNo}${cardNo}`).style.visibility = "visible";
+          document.getElementById(`value${seatNo}${cardNo}`).innerHTML = card.value;
+          document.getElementById(`suit${seatNo}${cardNo}`).className = card.suit;
+        }
+      }
+    }
+    document.getElementById("dealerCards").innerHTML = "";
+    for(let cardNo = 0; cardNo < this.game.dealerHand.cards.length; cardNo++){
+      let card = this.game.dealerHand.cards[cardNo];
+      if (card) {
+        if (cardNo === 1 && !this.game.dealerHitting) {
+          document.getElementById("dealerCards").innerHTML +=
+          `<img style="border-radius:10px" src="assets/card_back.jpg"/>`;
+        } else {
+          document.getElementById("dealerCards").innerHTML +=
+            `<div class="dealerCard${cardNo} card">
+            <div class="value" id = "dealerCard${cardNo}" > ${card.value}</div >
+            <div class="${card.suit}" id="dealerCard${cardNo}"></div>
+          </div >`;
+        }
+        
+      }
+    }
   }
 }
 

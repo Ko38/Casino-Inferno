@@ -20,8 +20,14 @@
       <span class="bankroll" id="bankroll"></span>
     </div>
     <div class="main-content">
-      <div id="dealerCards">
-        1
+      <div class="dealerCards-container">
+        <div class="dealerCards" id="dealerCards">
+            <!-- <img style="border-radius:10px" src="assets/card_back.jpg"/>
+            <div class="dealerCard0 card" id="dealerCard0">
+              <div class="value" id="dealerCard0">8</div>
+              <div class="hearts" id="dealerCard0"></div>
+            </div> -->
+        </div>
       </div>
       <img class="rules" src="./assets/blackjackRules.png"/>
       <button class="placeBetButton placeBetButton2" id="seat2">
@@ -148,10 +154,12 @@
         <div class="value">1</div>
         <div class="clubs"></div>
       </div> -->
+      <!-- Hit Stand Double Split-->
     </div>
     <div class="navbar">
-      <div>
+      <div id="left-buttons">
         <button class="nav-bar-button" id="clear-button">CLEAR</button>
+        <!-- <button class="nav-bar-button" id="clear-button">CLEAR</button> -->
       </div>
       <div class="chips">
         
@@ -161,8 +169,9 @@
         <img id="tenDollarChip" class="chip" value="10" src="./assets/chip_10.png" />
         <img id="twentyFiveDollarChip" class="chip" value="25" src="./assets/chip_25.png" />  
       </div>
-      <div >
+      <div id="right-buttons">
         <button class="nav-bar-button" id="deal-button">DEAL</button>
+        <!-- <button class="nav-bar-button" id="deal-button">DEAL</button> -->
       </div>
     </div>
 

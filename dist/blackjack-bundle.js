@@ -118,6 +118,8 @@ window.onload = function () {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _deck__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./deck */ "./js/blackjack/deck.js");
+/* harmony import */ var _hand__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./hand */ "./js/blackjack/hand.js");
+/* harmony import */ var _dealerHand__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./dealerHand */ "./js/blackjack/dealerHand.js");
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
@@ -126,15 +128,21 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 
 
 
+
+
 var BlackjackGame =
 /*#__PURE__*/
 function () {
-  function BlackjackGame() {
+  function BlackjackGame(render) {
     _classCallCheck(this, BlackjackGame);
 
     this.betAmounts = [0, 0, 0];
-    this.hands = [];
+    this.playerHands = [null, null, null];
     this.deck = new _deck__WEBPACK_IMPORTED_MODULE_0__["default"](2);
+    this.dealerHand = null;
+    this.render = render;
+    this.dealerHitting = false;
+    this.currentPlayerIndex = 0;
   }
 
   _createClass(BlackjackGame, [{
@@ -156,7 +164,57 @@ function () {
     }
   }, {
     key: "deal",
-    value: function deal() {}
+    value: function deal() {
+      var _this = this;
+
+      this.currentPlayerIndex = -1;
+
+      for (var i = 0; i < this.betAmounts.length; i++) {
+        if (this.betAmounts[i] > 0) {
+          if (this.currentPlayerIndex === -1) {
+            this.currentPlayerIndex = i;
+          }
+
+          this.playerHands[i] = new _hand__WEBPACK_IMPORTED_MODULE_1__["default"]();
+        }
+      }
+
+      if (this.playerHands.filter(function (playerHand) {
+        return !!playerHand;
+      }).length === 0) {
+        return false;
+      }
+
+      this.dealerHand = new _dealerHand__WEBPACK_IMPORTED_MODULE_2__["default"]();
+
+      while (this.dealerHand.numOfCards() < 2) {
+        this.dealerHand.receiveCard(this.deck.deal());
+        this.playerHands.forEach(function (playerHand) {
+          if (playerHand) {
+            playerHand.receiveCard(_this.deck.deal());
+
+            _this.render();
+          }
+        });
+      }
+
+      return true;
+    }
+  }, {
+    key: "hit",
+    value: function hit() {
+      this.playerHands[this.currentPlayerIndex].receiveCard(this.deck.deal());
+      this.render();
+    }
+  }, {
+    key: "stand",
+    value: function stand() {}
+  }, {
+    key: "double",
+    value: function double() {}
+  }, {
+    key: "split",
+    value: function split() {}
   }]);
 
   return BlackjackGame;
@@ -190,31 +248,64 @@ function () {
   function BlackjackGameView() {
     _classCallCheck(this, BlackjackGameView);
 
-    this.game = new _blackjackGame_js__WEBPACK_IMPORTED_MODULE_0__["default"]();
-    var seat0 = document.getElementById("seat0");
-    var seat1 = document.getElementById("seat1");
-    var seat2 = document.getElementById("seat2");
-    this.seats = [seat0, seat1, seat2];
+    this.game = new _blackjackGame_js__WEBPACK_IMPORTED_MODULE_0__["default"](this.render.bind(this));
+    this.seats = [document.getElementById("seat0"), document.getElementById("seat1"), document.getElementById("seat2")];
     this.selectedChipAmount = 1;
     this.setUpSelectChipEvents();
+    this.hideAllCards();
   }
 
   _createClass(BlackjackGameView, [{
+    key: "hideAllCards",
+    value: function hideAllCards() {
+      for (var seatNo = 0; seatNo < 3; seatNo++) {
+        for (var i = 0; i < 8; i++) {
+          document.getElementById("card".concat(seatNo).concat(i)).style.visibility = "hidden";
+        }
+      }
+    }
+  }, {
+    key: "setUpPlayerDecisionButtons",
+    value: function setUpPlayerDecisionButtons() {
+      var _this = this;
+
+      document.getElementById("left-buttons").innerHTML = "<button class=\"nav-bar-button\" id=\"hit-button\">HIT</button>\n        <button class=\"nav-bar-button\" id=\"double-button\">DOUBLE</button>";
+      document.getElementById("right-buttons").innerHTML = "<button class=\"nav-bar-button\" id=\"stand-button\">STAND</button>\n        <button class=\"nav-bar-button\" id=\"split-button\">SPLIT</button>";
+
+      document.getElementById("hit-button").onclick = function () {
+        _this.game.hit();
+      };
+
+      document.getElementById("stand-button").onclick = function () {
+        _this.game.stand();
+      };
+
+      document.getElementById("double-button").onclick = function () {
+        _this.game["double"]();
+      };
+
+      document.getElementById("split-button").onclick = function () {
+        _this.game.split();
+      };
+    }
+  }, {
     key: "startGame",
     value: function startGame() {
-      var _this = this;
+      var _this2 = this;
 
       this.setUpPlaceBetEvents();
       this.setUpClearEvents();
 
       document.getElementById("deal-button").onclick = function () {
-        _this.game.deal();
+        if (_this2.game.deal()) {
+          _this2.setUpPlayerDecisionButtons();
+        }
       };
     }
   }, {
     key: "setUpSelectChipEvents",
     value: function setUpSelectChipEvents() {
-      var _this2 = this;
+      var _this3 = this;
 
       var oneDollarChip = document.getElementById("oneDollarChip");
       var fiveDollarChip = document.getElementById("fiveDollarChip");
@@ -236,7 +327,7 @@ function () {
 
               if (chip === chipSelected) {
                 chip.classList.add("selected");
-                _this2.selectedChipAmount = parseInt(chip.getAttribute("value")) || 1;
+                _this3.selectedChipAmount = parseInt(chip.getAttribute("value")) || 1;
               } else {
                 chip.classList.remove("selected");
               }
@@ -265,14 +356,14 @@ function () {
   }, {
     key: "setUpPlaceBetEvents",
     value: function setUpPlaceBetEvents() {
-      var _this3 = this;
+      var _this4 = this;
 
       var _loop2 = function _loop2(i) {
-        _this3.seats[i].onclick = function () {
-          _this3.game.placeBet(i, _this3.selectedChipAmount);
+        _this4.seats[i].onclick = function () {
+          _this4.game.placeBet(i, _this4.selectedChipAmount);
 
-          _this3.seats[i].innerHTML = "<img src='./assets/empty_chip_25.png'></img>";
-          _this3.seats[i].innerHTML += "<div class='centered-betAmount'>" + _this3.game.getCurrentBetAmount(i) + "</div>";
+          _this4.seats[i].innerHTML = "<img src='./assets/empty_chip_25.png'></img>";
+          _this4.seats[i].innerHTML += "<div class='centered-betAmount'>" + _this4.game.getCurrentBetAmount(i) + "</div>";
         };
       };
 
@@ -283,15 +374,48 @@ function () {
   }, {
     key: "setUpClearEvents",
     value: function setUpClearEvents() {
-      var _this4 = this;
+      var _this5 = this;
 
       document.getElementById("clear-button").onclick = function () {
-        _this4.game.clearBets();
+        _this5.game.clearBets();
 
-        for (var i = 0; i < _this4.seats.length; i++) {
-          _this4.seats[i].innerHTML = "";
+        for (var i = 0; i < _this5.seats.length; i++) {
+          _this5.seats[i].innerHTML = "";
         }
       };
+    }
+  }, {
+    key: "render",
+    value: function render() {
+      for (var seatNo = 0; seatNo < this.game.playerHands.length; seatNo++) {
+        if (!this.game.playerHands[seatNo]) {
+          continue;
+        }
+
+        for (var cardNo = 0; cardNo < this.game.playerHands[seatNo].cards.length; cardNo++) {
+          var card = this.game.playerHands[seatNo].cards[cardNo];
+
+          if (card) {
+            document.getElementById("card".concat(seatNo).concat(cardNo)).style.visibility = "visible";
+            document.getElementById("value".concat(seatNo).concat(cardNo)).innerHTML = card.value;
+            document.getElementById("suit".concat(seatNo).concat(cardNo)).className = card.suit;
+          }
+        }
+      }
+
+      document.getElementById("dealerCards").innerHTML = "";
+
+      for (var _cardNo = 0; _cardNo < this.game.dealerHand.cards.length; _cardNo++) {
+        var _card = this.game.dealerHand.cards[_cardNo];
+
+        if (_card) {
+          if (_cardNo === 1 && !this.game.dealerHitting) {
+            document.getElementById("dealerCards").innerHTML += "<img style=\"border-radius:10px\" src=\"assets/card_back.jpg\"/>";
+          } else {
+            document.getElementById("dealerCards").innerHTML += "<div class=\"dealerCard".concat(_cardNo, " card\">\n            <div class=\"value\" id = \"dealerCard").concat(_cardNo, "\" > ").concat(_card.value, "</div >\n            <div class=\"").concat(_card.suit, "\" id=\"dealerCard").concat(_cardNo, "\"></div>\n          </div >");
+          }
+        }
+      }
     }
   }]);
 
@@ -317,7 +441,7 @@ function _defineProperties(target, props) { for (var i = 0; i < props.length; i+
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
-var SUITS = ["Spades", "Diamonds", "Hearts", "Clubs"];
+var SUITS = ["spades", "diamonds", "hearts", "clubs"];
 var VALUES = ["A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K"];
 
 var Card =
@@ -392,6 +516,52 @@ function () {
 }();
 
 /* harmony default export */ __webpack_exports__["default"] = (Card);
+
+/***/ }),
+
+/***/ "./js/blackjack/dealerHand.js":
+/*!************************************!*\
+  !*** ./js/blackjack/dealerHand.js ***!
+  \************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _card__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./card */ "./js/blackjack/card.js");
+/* harmony import */ var _hand__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./hand */ "./js/blackjack/hand.js");
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+
+
+
+var DealerHand =
+/*#__PURE__*/
+function (_Hand) {
+  _inherits(DealerHand, _Hand);
+
+  function DealerHand() {
+    _classCallCheck(this, DealerHand);
+
+    return _possibleConstructorReturn(this, _getPrototypeOf(DealerHand).call(this));
+  }
+
+  return DealerHand;
+}(_hand__WEBPACK_IMPORTED_MODULE_1__["default"]);
+
+/* harmony default export */ __webpack_exports__["default"] = (DealerHand);
 
 /***/ }),
 
@@ -479,6 +649,102 @@ function () {
 }();
 
 /* harmony default export */ __webpack_exports__["default"] = (Deck);
+
+/***/ }),
+
+/***/ "./js/blackjack/hand.js":
+/*!******************************!*\
+  !*** ./js/blackjack/hand.js ***!
+  \******************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _card__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./card */ "./js/blackjack/card.js");
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+
+
+var Hand =
+/*#__PURE__*/
+function () {
+  function Hand() {
+    _classCallCheck(this, Hand);
+
+    this.cards = [];
+  }
+
+  _createClass(Hand, [{
+    key: "receiveCard",
+    value: function receiveCard(card) {
+      this.cards.push(card);
+    }
+  }, {
+    key: "numOfCards",
+    value: function numOfCards() {
+      return this.cards.length;
+    }
+  }, {
+    key: "cardValue",
+    value: function cardValue() {
+      var hasAce = this.cards.filter(function (card) {
+        return card.value === "A";
+      }).length > 0;
+      var totalValue = 0;
+      var _iteratorNormalCompletion = true;
+      var _didIteratorError = false;
+      var _iteratorError = undefined;
+
+      try {
+        for (var _iterator = this.cards[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+          var card = _step.value;
+          var value = card.value;
+
+          if (value === "A") {
+            totalValue++;
+          } else if (value === "J" && value === "Q" && value === "K") {
+            totalValue += 10;
+          } else {
+            totalValue += parseInt(value);
+          }
+        }
+      } catch (err) {
+        _didIteratorError = true;
+        _iteratorError = err;
+      } finally {
+        try {
+          if (!_iteratorNormalCompletion && _iterator["return"] != null) {
+            _iterator["return"]();
+          }
+        } finally {
+          if (_didIteratorError) {
+            throw _iteratorError;
+          }
+        }
+      }
+
+      if (totalValue <= 11 && hasAce) {
+        totalValue += 10;
+      }
+
+      return totalValue;
+    }
+  }, {
+    key: "isBusted",
+    value: function isBusted() {
+      return this.cardValue() > 21;
+    }
+  }]);
+
+  return Hand;
+}();
+
+/* harmony default export */ __webpack_exports__["default"] = (Hand);
 
 /***/ }),
 
