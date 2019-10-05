@@ -140,7 +140,6 @@ function () {
     this.betAmounts = [0, 0, 0];
     this.playerHands = [null, null, null];
     this.deck = new _deck__WEBPACK_IMPORTED_MODULE_0___default.a(2);
-    console.log(this.deck);
     this.dealerHand = null;
     this.render = render;
     this.dealerHitting = false;

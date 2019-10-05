@@ -71,23 +71,20 @@ function jackMagicSimulation(jackTag = -5, oneEyedJackTag = -14, triggerCount = 
         units += payout;
       }
     }
-    if (handsPlayed > 500) {
-      break;
-    }
   }
   console.log(`unitsWon:${units}`);
   console.log(`Bet ${betCount} times`);
   console.log(`Watched ${handsPlayed} rounds`);   
   console.log(`EV: ${units/betCount}`);
   console.log(`BetFrequency: ${betCount/handsPlayed}`);
-  console.log(oneJack);
-  console.log( oneOneEyedJack );
-  console.log( twoJacks );
-  console.log( twoOneEyedJacks );
-  console.log( threeJacks );
-  console.log( threeOneEyedJacks );
-  console.log(lostHands);
-  console.log(handsPlayed)
+  // console.log(oneJack);
+  // console.log( oneOneEyedJack );
+  // console.log( twoJacks );
+  // console.log( twoOneEyedJacks );
+  // console.log( threeJacks );
+  // console.log( threeOneEyedJacks );
+  // console.log(lostHands);
+  // console.log(handsPlayed);
   let oneJackProbability = oneJack / handsPlayed;
   let oneOneEyedJackProbability = oneOneEyedJack/ handsPlayed;
   let twoJacksProbability = twoJacks/ handsPlayed;
@@ -164,3 +161,10 @@ function jackMagicSimulation(jackTag = -5, oneEyedJackTag = -14, triggerCount = 
 // }
 
 jackMagicSimulation(-7, -17, 2);
+
+// jack: -7 oneEyedJ: -17 triggerCount: 2:
+// unitsWon: 3741122
+// Bet 26227801 times
+// Watched 70000000 rounds
+// EV: 0.14263956021322566
+// BetFrequency: 0.37468287142857143

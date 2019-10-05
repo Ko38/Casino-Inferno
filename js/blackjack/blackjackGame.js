@@ -7,7 +7,6 @@ class BlackjackGame {
     this.betAmounts = [0, 0, 0];
     this.playerHands = [null, null, null];
     this.deck = new Deck(2);
-    console.log(this.deck);
     this.dealerHand = null;
     this.render = render;
     this.dealerHitting = false;
@@ -54,9 +53,12 @@ class BlackjackGame {
     return true;
   }
 
-  hit() {
+  
 
+  hit() {
+    
     this.playerHands[this.currentPlayerIndex].receiveCard(this.deck.deal());
+
     this.render();
   }
 
