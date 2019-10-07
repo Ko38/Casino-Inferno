@@ -19,6 +19,16 @@ class Card {
     return this.isJack() && this.isOneEyed();
   }
 
+  faceValue() {
+    if(this.value === "A") return 1;
+    if (this.value === "J" || this.value === "Q" || this.value === "K") return 10;
+    return parseInt(this.value);
+  }
+
+  isMonkey() {
+    return this.value === "J" || this.value === "Q" || this.value === "K";
+  }
+
   static allCards(numOfDecks = 1){
     let cards = [];
     for(let i = 0; i < numOfDecks; i++) {

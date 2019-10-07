@@ -117,9 +117,9 @@ function jackMagicSimulation(jackTag = -5, oneEyedJackTag = -14, triggerCount = 
   //Remvoed twelve one-eyed Jacks: -0.7383398072289156
 
   //HE: 5.8%
-  //nonJack: 2.9%
-  //Jack: 15.188% and 10.23%
-  //One-eyed: 41.2% and 26.8%
+  //After removing a nonJack: 2.9%
+  //After removing a Jack: 15.188% and 10.23%
+  //After removing a One-eyed: 41.2% and 26.8%
 
   // 1 -5 -14 true2
 
@@ -168,3 +168,12 @@ jackMagicSimulation(-7, -17, 2);
 // Watched 70000000 rounds
 // EV: 0.14263956021322566
 // BetFrequency: 0.37468287142857143
+
+//37*40 + 63*10   EV: -12.66 with 0.6% house edge
+//100 * 10  EV: -6 with 0.6% HE
+//100 * 40  EV: -24 with 0.6% HE
+
+//100 * 10 EV: 142.63
+//200 * 10 EV: 285.279
+//100 * 25 EV: 356.5989
+//200 * 25 EV: 713.1978

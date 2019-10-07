@@ -468,6 +468,18 @@ function () {
     value: function isOneEyedJack() {
       return this.isJack() && this.isOneEyed();
     }
+  }, {
+    key: "faceValue",
+    value: function faceValue() {
+      if (this.value === "A") return 1;
+      if (this.value === "J" || this.value === "Q" || this.value === "K") return 10;
+      return parseInt(this.value);
+    }
+  }, {
+    key: "isMonkey",
+    value: function isMonkey() {
+      return this.value === "J" || this.value === "Q" || this.value === "K";
+    }
   }], [{
     key: "allCards",
     value: function allCards() {
@@ -616,6 +628,22 @@ function () {
         var temp = this.cards[i];
         this.cards[i] = this.cards[j];
         this.cards[j] = temp;
+      }
+    }
+  }, {
+    key: "removeNCards",
+    value: function removeNCards(value, n) {
+      var count = 0;
+
+      for (var i = 0; i < this.cards.length; i++) {
+        if (this.cards[i].value === value) {
+          this.cards.splice(i, 1);
+          count++;
+
+          if (count >= n) {
+            break;
+          }
+        }
       }
     }
   }, {

@@ -1,0 +1,68 @@
+// 8,9:-5.5 others: +1 trigger: 6.5
+unitsWon: 10413942
+Bet 110117673 times
+Watched 795802806 rounds
+EV: 0.0945710322084267
+BetFrequency: 0.13837306449507544
+
+// 8,9: -6 4: +2 others: +1
+triggerCount:6
+unitsWon:10240275
+Bet 131383818 times
+Watched 795798245 rounds
+EV: 0.07794167619637907
+BetFrequency: 0.16509689337151026
+
+triggerCount:7
+unitsWon:10290195
+Bet 112121994 times
+Watched 795802862 rounds
+EV: 0.09177677485828517
+BetFrequency: 0.14089166972611364
+
+triggerCount:4
+unitsWon:860764
+Bet 18385157 times
+Watched 79577258 rounds
+EV: 0.04681841988077665
+BetFrequency: 0.23103531664787946
+
+
+triggerCount:5
+unitsWon:997319
+Bet 15507454 times
+Watched 79578457 rounds
+EV: 0.06431223332985543
+BetFrequency: 0.1948700010607142
+
+
+triggerCount:6
+unitsWon:1013363
+Bet 13166881 times
+Watched 79580461 rounds
+EV: 0.0769630256398611
+BetFrequency: 0.16545369095059653
+
+
+triggerCount:7
+unitsWon:1064772
+Bet 11224800 times
+Watched 79580824 rounds
+EV: 0.09485888389993585
+BetFrequency: 0.14104905473207968
+
+
+triggerCount:8
+unitsWon:1037935
+Bet 9637079 times
+Watched 79576905 rounds
+EV: 0.10770224048178914
+BetFrequency: 0.12110396854464245
+
+
+triggerCount:9
+unitsWon:999472
+Bet 8308385 times
+Watched 79580070 rounds
+EV: 0.12029678451347645
+BetFrequency: 0.1044028360367112
