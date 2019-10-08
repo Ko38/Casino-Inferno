@@ -169,6 +169,13 @@ function baccaratSimulation(cardValueRemoved) {
 
 baccaratSimulation(undefined);
 
-for (let value of ["A", "2", "3", "4", "5", "6", "7", "8", "9", "10"]){
+// for (let value of ["A", "2", "3", "4", "5", "6", "7", "8", "9", "10"]){
+//   baccaratSimulation(value);
+// }
+for (let value of ["J", "Q", "K"]) {
   baccaratSimulation(value);
 }
+
+//wizard of odds EV: -0.3322
+//after removing A~10: -0.232 EOR: 0.10
+//after removing J: -0.48641754018271954  EOR: -0.15
