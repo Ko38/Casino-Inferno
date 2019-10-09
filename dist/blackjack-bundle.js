@@ -633,17 +633,8 @@ function () {
   }, {
     key: "removeNCards",
     value: function removeNCards(value, n) {
-      var count = 0;
-
-      for (var i = 0; i < this.cards.length; i++) {
-        if (this.cards[i].value === value) {
-          this.cards.splice(i, 1);
-          count++;
-
-          if (count >= n) {
-            break;
-          }
-        }
+      for (var i = 0; i < n; i++) {
+        this.removeOneCard(value);
       }
     }
   }, {

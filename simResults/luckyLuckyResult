@@ -1,0 +1,58 @@
+//suited 21 pays 10 to 1
+//SixDeck cut one
+
+Trigger: 3
+unitsWon:4028299
+Bet 123264897 times
+Watched 870000000 rounds
+EV: 0.03268001757223713
+BetFrequency: 0.14168378965517242
+hitInsurance: 0
+lostHands:0
+
+Trigger: 4
+unitsWon:4089314
+Bet 83821361 times
+Watched 870000000 rounds
+EV: 0.04878606063196707
+BetFrequency: 0.09634639195402299
+hitInsurance: 0
+lostHands:0
+
+//DoubleDeck cut one
+unitsWon:772240
+Bet 19375079 times
+Watched 180000000 rounds
+EV: 0.03985738587182019
+BetFrequency: 0.10763932777777778
+hitInsurance: 0
+lostHands:0
+
+//suited 21 pays 15 to 1
+//DoubleDeck cut one
+unitsWon:1594102
+Bet 41946825 times
+Watched 180000000 rounds
+EV: 0.038002923940012145
+BetFrequency: 0.23303791666666668
+
+//DoubleDeck cut 0.5
+unitsWon:4421776
+Bet 77793191 times
+Watched 270000000 rounds
+EV: 0.05684014170340435
+BetFrequency: 0.28812292962962965
+
+//DoubleDeck cut 0.75
+unitsWon:2598816
+Bet 57794680 times
+Watched 220000000 rounds
+EV: 0.044966353304491
+BetFrequency: 0.2627030909090909
+
+//DoubleDeck cut 20 cards (0.4 decks)
+unitsWon:5392051
+Bet 86790900 times
+Watched 290000000 rounds
+EV: 0.06212691653157186
+BetFrequency: 0.29927896551724137
