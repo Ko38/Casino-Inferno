@@ -25,8 +25,14 @@ Bet 19375079 times
 Watched 180000000 rounds
 EV: 0.03985738587182019
 BetFrequency: 0.10763932777777778
-hitInsurance: 0
-lostHands:0
+
+//DoubleDeck cut 0.5
+unitsWon:2857640
+Bet 46536880 times
+Watched 270000000 rounds
+EV: 0.06140592149710079
+BetFrequency: 0.17235881481481483
+
 
 //suited 21 pays 15 to 1
 //DoubleDeck cut one

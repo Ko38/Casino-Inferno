@@ -47,7 +47,7 @@ function luckyLuckySimulation(triggerCount = 2) {
     } else if (sixSevenEight) {
       return 30;
     } else if (calculateValue(card1, card2, card3) === 21 && suited) {
-      return 15;
+      return 10;
     } else if (calculateValue(card1, card2, card3) === 21) {
       return 3;
     } else if (calculateValue(card1, card2, card3) === 20) {
@@ -75,7 +75,7 @@ function luckyLuckySimulation(triggerCount = 2) {
   for(let i = 0; i < 10000000; i++ ){
     let deck = new Deck(2);
     let count = 0;
-    while (!deck.isCutCardOut(20)) {
+    while (!deck.isCutCardOut(26)) {
       let triggered = (count / deck.decksLeft()) >= triggerCount;
 
       let card1 = deck.deal();
@@ -108,7 +108,7 @@ function luckyLuckySimulation(triggerCount = 2) {
 //   console.log("\n");
 // }
 
-luckyLuckySimulation();
+luckyLuckySimulation(4);
 
 //2
 // unitsWon: 315475
