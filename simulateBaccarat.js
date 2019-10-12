@@ -1,7 +1,7 @@
 const Deck = require("./js/blackjack/deck");
 // 1 3 7 50 100 500
 //one eyed - spades hearts
-function baccaratSimulation(cardValueRemoved) {
+function baccaratSimulation(monkeyValue, otherValue, triggerCount) {
   
   let hitGrandMonkey = 0;
   let missedGrandMonkey = 0;
@@ -15,15 +15,10 @@ function baccaratSimulation(cardValueRemoved) {
  
 
   let counting = (card) => {
-    if(card.value === "A" || card.value === "6"){
-      return -1;
-    } else if (card.value === "7" || card.value === "8") {
-      return -2;
-    } else if (card.value === "2" || card.value === "3" || card.value === "10"
-          || card.value === "J" || card.value === "Q" || card.value === "K") {
-      return 1;
-    }
-    return 0;
+    if (card.value === "J" || card.value === "Q" || card.value === "K"){
+      return monkeyValue;
+    } 
+    return otherValue;
   };
 
   let getBaccaratActualValue = (num) => {
@@ -57,13 +52,13 @@ function baccaratSimulation(cardValueRemoved) {
   let betCount = 0;
   for(let i = 0; i < 10000000; i++ ){
     let deck = new Deck(8);
-    if (cardValueRemoved){
-      deck.removeNCards(cardValueRemoved, 8);
-    }
+    // if (cardValueRemoved){
+    //   deck.removeNCards(cardValueRemoved, 8);
+    // }
     
     let count = 0;
     while (!deck.isCutCardOut(26)) {
-      //let triggered = (count / deck.decksLeft()) >= triggerCount;
+      let triggered = (count / deck.decksLeft()) >= triggerCount;
 
       let playerCard1 = deck.deal();
       let bankerCard1 = deck.deal();
@@ -90,11 +85,14 @@ function baccaratSimulation(cardValueRemoved) {
       let settleGrandMonkey = (card1, card2, card3, card4, card5, card6) => {
         if (!card5 || !card6) {
           missedGrandMonkey++;
+          return -1;
         } else if (card1.isMonkey() && card2.isMonkey() && card3.isMonkey()
           && card4.isMonkey() && card5.isMonkey() && card6.isMonkey()) {
           hitGrandMonkey++;
+          return 5000;
         } else {
           missedGrandMonkey++;
+          return -1;
         }
         
       };
@@ -124,7 +122,12 @@ function baccaratSimulation(cardValueRemoved) {
 
       if (playerTotal >= 8 || bankerTotal >= 8) {
         settleBaccarat(playerTotal, bankerTotal);
-        settleGrandMonkey(playerCard1, playerCard2, bankerCard1, bankerCard2, undefined, undefined);
+        let payout = settleGrandMonkey(playerCard1, playerCard2, bankerCard1, bankerCard2, undefined, undefined);
+        if(triggered){
+          units += payout;
+          betCount++;
+        }
+        
         continue;
       }
 
@@ -133,6 +136,7 @@ function baccaratSimulation(cardValueRemoved) {
 
       if(playerTotal <= 5) {
         playerCard3 = deck.deal();
+        count += counting(playerCard3);
         playerDrawn = true;
       }
       
@@ -151,20 +155,31 @@ function baccaratSimulation(cardValueRemoved) {
 
       if (bankerCard3){
         bankerTotal = getBaccaratActualValue(bankerTotal + bankerCard3.faceValue());
+        count += counting(bankerCard3);
       }
 
       settleBaccarat(playerTotal, bankerTotal);
-      settleGrandMonkey(playerCard1, playerCard2, bankerCard1, bankerCard2, playerCard3, bankerCard3);
+      let payout = settleGrandMonkey(playerCard1, playerCard2, bankerCard1, bankerCard2, playerCard3, bankerCard3);
+      if(triggered){
+        units += payout;
+        betCount++;
+      }
       
     }
   }
-  console.log(`After removing ${cardValueRemoved}`);
-  console.log(`hitGrandMonkey:${hitGrandMonkey}`);
-  console.log(`missedGrandMonkey:${missedGrandMonkey}`);
-  console.log(`hands:${handsPlayed}`);
-  console.log(`grandMonkeyProbability: ${hitGrandMonkey / handsPlayed}`);
-  console.log(`EV:${5000 * (hitGrandMonkey / handsPlayed) - (missedGrandMonkey / handsPlayed)}`);
-  console.log("\n");
+  console.log(`triggerCOunt:${triggerCount}`);
+  console.log(`unitsWon:${units}`);
+  console.log(`Bet ${betCount} times`);
+  console.log(`Watched ${handsPlayed} rounds`);
+  console.log(`EV: ${units / betCount}`);
+  console.log(`BetFrequency: ${betCount / handsPlayed}`);
+  // console.log(`After removing ${cardValueRemoved}`);
+  // console.log(`hitGrandMonkey:${hitGrandMonkey}`);
+  // console.log(`missedGrandMonkey:${missedGrandMonkey}`);
+  // console.log(`hands:${handsPlayed}`);
+  // console.log(`grandMonkeyProbability: ${hitGrandMonkey / handsPlayed}`);
+  // console.log(`EV:${5000 * (hitGrandMonkey / handsPlayed) - (missedGrandMonkey / handsPlayed)}`);
+  // console.log("\n");
 }
 
 
@@ -172,11 +187,15 @@ function baccaratSimulation(cardValueRemoved) {
 // for (let value of ["A", "2", "3", "4", "5", "6", "7", "8", "9", "10"]){
 //   baccaratSimulation(value);
 // }
-for (let value of ["8", "J"]) {
-  baccaratSimulation(value);
+// for (let value of ["8", "J"]) {
+//   baccaratSimulation(value);
+// }
+
+for(let i = 5; i < 35; i+=3){
+  baccaratSimulation(-10, 3, i);
+
 }
 
 //wizard of odds EV: -0.3322
 //after removing A~10: -0.232 EOR: 0.10
 //after removing J: -0.48641754018271954  EOR: -0.15
-

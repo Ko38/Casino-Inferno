@@ -1,0 +1,43 @@
+//DoubleDeck cut 1
+
+triggercount: 10
+unitsWon:-76493
+Bet 4481717 times
+Watched 140000000 rounds
+EV: -0.01706778897462736
+BetFrequency: 0.032012264285714284
+
+trigger: 11
+unitsWon:18027
+Bet 3336808 times
+Watched 140000000 rounds
+EV: 0.005402468466870134
+BetFrequency: 0.023834342857142858
+
+trigger: 12
+unitsWon:64235
+Bet 2531277 times
+Watched 140000000 rounds
+EV: 0.025376519440582758
+BetFrequency: 0.01808055
+
+triggerCount:13
+unitsWon:79936
+Bet 1910957 times
+Watched 140000000 rounds
+EV: 0.041830349924147955
+BetFrequency: 0.013649692857142856
+
+triggerCount:14
+unitsWon:96701
+Bet 1159765 times
+Watched 140000000 rounds
+EV: 0.08337982263648239
+BetFrequency: 0.008284035714285714
+
+triggerCount:15
+unitsWon:86448
+Bet 853949 times
+Watched 140000000 rounds
+EV: 0.10123321181944121
+BetFrequency: 0.006099635714285714
