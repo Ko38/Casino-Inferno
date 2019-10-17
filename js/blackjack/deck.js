@@ -4,6 +4,7 @@ class Deck {
   constructor(numOfDecks) {
     this.numOfDecks = numOfDecks;
     this.shuffle();
+    this.numOfRounds = 0;
   }
 
   shuffle() {
@@ -71,8 +72,16 @@ class Deck {
     return this.cards.length < num;
   }
 
+  isOverRounds(rounds = 76) {
+    return this.numOfRounds >= rounds;
+  }
+
   cardsLeft() {
     return this.cards.length;
+  }
+
+  decksLeftEstimatedByRounds() {
+    return (52*8 - this.numOfRounds*4.94) / 52;
   }
 
   decksLeft() {
