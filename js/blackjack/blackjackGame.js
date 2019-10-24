@@ -41,23 +41,55 @@ class BlackjackGame {
       return false;
     }
     this.dealerHand = new DealerHand();
-    while(this.dealerHand.numOfCards() < 2) {
-      this.dealerHand.receiveCard(this.deck.deal());
-      this.playerHands.forEach((playerHand) => {
-        if(playerHand){
-          playerHand.receiveCard(this.deck.deal());
-          this.render();
-        }
-      });
-    }
+
+
+    // while(this.dealerHand.numOfCards() < 2) {
+    //   this.dealerHand.receiveCard(this.deck.deal());
+    //   this.playerHands.forEach((playerHand) => {
+    //     if(playerHand){
+    //       playerHand.receiveCard(this.deck.deal());
+    //       this.render();
+    //     }
+    //   });
+    // }
+    this.dealPlayerCards(0);
     return true;
   }
 
-  
+  dealPlayerCards(index) {
+    if(this.dealerHand.numOfCards() < 2) {
+      if (this.playerHands[index]) {
+        this.playerHands[index].receiveCard(this.deck.deal());
+        this.render();
+      } 
+      
+      if(index >= this.playerHands.length){
+        setTimeout(() => {
+          this.dealDealerCard();
+        }, 1000);
+      } else if (!this.playerHands[index]) {
+        this.dealPlayerCards(index + 1);
+      } else {
+        setTimeout(() => {
+          this.dealPlayerCards(index+1);
+        }, 1000);
+      }
+    } 
+  }
+
+  dealDealerCard() {
+    this.dealerHand.receiveCard(this.deck.deal());
+    this.render();
+    setTimeout(() => {
+      this.dealPlayerCards(0);
+    }, 1000);
+  }
 
   hit() {
     
     this.playerHands[this.currentPlayerIndex].receiveCard(this.deck.deal());
+
+
 
     this.render();
   }

@@ -122,7 +122,8 @@ var setUpBankroll = function setUpBankroll() {
   }
 
   document.getElementById("bankroll").innerHTML = "BANKROLL: $".concat(bankroll);
-};
+}; //Test
+
 
 /* harmony default export */ __webpack_exports__["default"] = (setUpBankroll);
 

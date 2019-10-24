@@ -166,8 +166,6 @@ function () {
   }, {
     key: "deal",
     value: function deal() {
-      var _this = this;
-
       this.currentPlayerIndex = -1;
 
       for (var i = 0; i < this.betAmounts.length; i++) {
@@ -186,20 +184,53 @@ function () {
         return false;
       }
 
-      this.dealerHand = new _dealerHand__WEBPACK_IMPORTED_MODULE_2__["default"]();
+      this.dealerHand = new _dealerHand__WEBPACK_IMPORTED_MODULE_2__["default"](); // while(this.dealerHand.numOfCards() < 2) {
+      //   this.dealerHand.receiveCard(this.deck.deal());
+      //   this.playerHands.forEach((playerHand) => {
+      //     if(playerHand){
+      //       playerHand.receiveCard(this.deck.deal());
+      //       this.render();
+      //     }
+      //   });
+      // }
 
-      while (this.dealerHand.numOfCards() < 2) {
-        this.dealerHand.receiveCard(this.deck.deal());
-        this.playerHands.forEach(function (playerHand) {
-          if (playerHand) {
-            playerHand.receiveCard(_this.deck.deal());
-
-            _this.render();
-          }
-        });
-      }
-
+      this.dealPlayerCards(0);
       return true;
+    }
+  }, {
+    key: "dealPlayerCards",
+    value: function dealPlayerCards(index) {
+      var _this = this;
+
+      if (this.dealerHand.numOfCards() < 2) {
+        if (this.playerHands[index]) {
+          this.playerHands[index].receiveCard(this.deck.deal());
+          this.render();
+        }
+
+        if (index >= this.playerHands.length) {
+          setTimeout(function () {
+            _this.dealDealerCard();
+          }, 1000);
+        } else if (!this.playerHands[index]) {
+          this.dealPlayerCards(index + 1);
+        } else {
+          setTimeout(function () {
+            _this.dealPlayerCards(index + 1);
+          }, 1000);
+        }
+      }
+    }
+  }, {
+    key: "dealDealerCard",
+    value: function dealDealerCard() {
+      var _this2 = this;
+
+      this.dealerHand.receiveCard(this.deck.deal());
+      this.render();
+      setTimeout(function () {
+        _this2.dealPlayerCards(0);
+      }, 1000);
     }
   }, {
     key: "hit",
@@ -616,6 +647,7 @@ function () {
 
     this.numOfDecks = numOfDecks;
     this.shuffle();
+    this.numOfRounds = 0;
   }
 
   _createClass(Deck, [{
@@ -715,9 +747,20 @@ function () {
       return this.cards.length < num;
     }
   }, {
+    key: "isOverRounds",
+    value: function isOverRounds() {
+      var rounds = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 76;
+      return this.numOfRounds >= rounds;
+    }
+  }, {
     key: "cardsLeft",
     value: function cardsLeft() {
       return this.cards.length;
+    }
+  }, {
+    key: "decksLeftEstimatedByRounds",
+    value: function decksLeftEstimatedByRounds() {
+      return (52 * 8 - this.numOfRounds * 4.94) / 52;
     }
   }, {
     key: "decksLeft",
@@ -762,6 +805,21 @@ function () {
   }
 
   _createClass(Hand, [{
+    key: "hasBlackjack",
+    value: function hasBlackjack() {
+      if (this.cards.length !== 2) {
+        return false;
+      }
+
+      if (this.cards[0].value === "A" && (this.cards[1].value === "10" || this.cards[1].value === "J" || this.cards[1].value === "Q" || this.cards[1].value === "D")) {
+        return true;
+      } else if (this.cards[1].value === "A" && (this.cards[0].value === "10" || this.cards[0].value === "J" || this.cards[0].value === "Q" || this.cards[0].value === "D")) {
+        return true;
+      }
+
+      return false;
+    }
+  }, {
     key: "receiveCard",
     value: function receiveCard(card) {
       this.cards.push(card);
@@ -848,7 +906,8 @@ var setUpBankroll = function setUpBankroll() {
   }
 
   document.getElementById("bankroll").innerHTML = "BANKROLL: $".concat(bankroll);
-};
+}; //Test
+
 
 /* harmony default export */ __webpack_exports__["default"] = (setUpBankroll);
 

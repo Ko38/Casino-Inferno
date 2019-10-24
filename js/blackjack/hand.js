@@ -5,6 +5,21 @@ class Hand {
     this.cards = [];
   }
 
+  hasBlackjack() {
+    if(this.cards.length !== 2) {
+      return false;
+    }
+
+    if (this.cards[0].value === "A" && (this.cards[1].value === "10" || this.cards[1].value === "J" ||
+      this.cards[1].value === "Q" || this.cards[1].value === "D")){
+        return true;
+    } else if (this.cards[1].value === "A" && (this.cards[0].value === "10" || this.cards[0].value === "J" ||
+      this.cards[0].value === "Q" || this.cards[0].value === "D")) {
+      return true;
+    }
+    return false;
+  }
+
   receiveCard(card) {
     this.cards.push(card);
   }
