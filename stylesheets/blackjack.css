@@ -113,12 +113,15 @@ body  {
 .nav-bar-button{
   border: white solid;
   padding: 10px;
-  opacity: 0.6;
   font-size: 42px;
   border-radius: 12px;
   font-family: 'Lato', Calibri, Arial, sans-serif;
   color: white;
   margin-top: 25px;
+}
+
+.nav-bar-button:disabled {
+  opacity: 0.2;
 }
 
 .chip:hover {

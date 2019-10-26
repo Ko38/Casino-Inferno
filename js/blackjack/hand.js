@@ -37,7 +37,7 @@ class Hand {
       let value = card.value;
       if(value === "A"){
         totalValue++;
-      } else if (value === "J" && value === "Q" && value === "K") {
+      } else if (value === "J" || value === "Q" || value === "K") {
         totalValue += 10;
       } else {
         totalValue += parseInt(value);

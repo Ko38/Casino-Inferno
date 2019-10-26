@@ -1,15 +1,16 @@
 import Deck from "./deck";
 import Hand from "./hand";
+import Card from "./card";
 import DealerHand from "./dealerHand";
 
 class BlackjackGame {
-  constructor(render){
+  constructor(render) {
     this.betAmounts = [0, 0, 0];
     this.playerHands = [null, null, null];
     this.deck = new Deck(2);
     this.dealerHand = null;
-    this.render = render;
     this.dealerHitting = false;
+    this.render = render;
     this.currentPlayerIndex = 0;
   }
 
@@ -77,7 +78,7 @@ class BlackjackGame {
     } 
   }
 
-  dealDealerCard() {
+  dealDealerCard() { 
     this.dealerHand.receiveCard(this.deck.deal());
     this.render();
     setTimeout(() => {
@@ -88,14 +89,20 @@ class BlackjackGame {
   hit() {
     
     this.playerHands[this.currentPlayerIndex].receiveCard(this.deck.deal());
-
+    if (this.playerHands[this.currentPlayerIndex].isBusted()) {
+      let bankroll = parseFloat(localStorage.getItem('bankroll'));
+      bankroll -= this.betAmounts[this.currentPlayerIndex];
+      localStorage.setItem('bankroll', bankroll);
+      this.render();
+      this.nextPlayer();
+    }
 
 
     this.render();
   }
 
   stand() {
-
+    this.nextPlayer();
   }
 
   double() {
@@ -105,6 +112,54 @@ class BlackjackGame {
   split() {
 
   }
+
+  nextPlayer() {
+    this.currentPlayerIndex++;
+    while(!this.playerHands[this.currentPlayerIndex]) {
+      this.currentPlayerIndex++;
+      if(this.currentPlayerIndex > this.playerHands.length) {
+        this.dealerHits();
+        break;
+      }
+    }
+  }
+
+  dealerHits() {
+    this.dealerHitting = true;
+    this.render();
+    setTimeout(() => {
+      if (this.dealerHand.has17()) {
+        this.settle();
+      } else {
+        this.dealerHand.receiveCard(this.deck.deal());
+        this.render();
+        this.dealerHits();
+      }
+    }, 1000);
+  }
+
+  settle() {
+    for(let i = 0; i <  this.playerHands.length; i++) {
+      if (!this.playerHands[i]) continue;
+      if (!this.playerHands[i].isBusted()) {
+        if(this.dealerHand.isBusted()){
+          let bankroll = parseFloat(localStorage.getItem('bankroll'));
+          bankroll += this.betAmounts[i];
+          localStorage.setItem('bankroll', bankroll);
+        } else if (this.dealerHand.cardValue() > this.playerHands[i].cardValue()) {
+          let bankroll = parseFloat(localStorage.getItem('bankroll'));
+          bankroll -= this.betAmounts[i];
+          localStorage.setItem('bankroll', bankroll);
+        } else if (this.dealerHand.cardValue() < this.playerHands[i].cardValue()) {
+          let bankroll = parseFloat(localStorage.getItem('bankroll'));
+          bankroll += this.betAmounts[i];
+          localStorage.setItem('bankroll', bankroll);
+        }
+      }
+    }
+    this.render();
+  }
+
 }
 
 export default BlackjackGame;

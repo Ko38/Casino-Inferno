@@ -91,7 +91,13 @@ class BlackjackGameView {
     };
   }
 
+  updateBankroll() {
+    let bankroll = localStorage.getItem('bankroll');
+    document.getElementById("bankroll").innerHTML = `BANKROLL: $${bankroll}`;
+  }
+
   render() {
+    this.updateBankroll();
     for(let seatNo = 0; seatNo < this.game.playerHands.length; seatNo++) {
       if (!this.game.playerHands[seatNo]) {
         continue;

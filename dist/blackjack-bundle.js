@@ -120,12 +120,15 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _deck__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./deck */ "./js/blackjack/deck.js");
 /* harmony import */ var _deck__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_deck__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _hand__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./hand */ "./js/blackjack/hand.js");
-/* harmony import */ var _dealerHand__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./dealerHand */ "./js/blackjack/dealerHand.js");
+/* harmony import */ var _card__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./card */ "./js/blackjack/card.js");
+/* harmony import */ var _card__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_card__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _dealerHand__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./dealerHand */ "./js/blackjack/dealerHand.js");
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
 
 
 
@@ -141,8 +144,8 @@ function () {
     this.playerHands = [null, null, null];
     this.deck = new _deck__WEBPACK_IMPORTED_MODULE_0___default.a(2);
     this.dealerHand = null;
-    this.render = render;
     this.dealerHitting = false;
+    this.render = render;
     this.currentPlayerIndex = 0;
   }
 
@@ -184,7 +187,7 @@ function () {
         return false;
       }
 
-      this.dealerHand = new _dealerHand__WEBPACK_IMPORTED_MODULE_2__["default"](); // while(this.dealerHand.numOfCards() < 2) {
+      this.dealerHand = new _dealerHand__WEBPACK_IMPORTED_MODULE_3__["default"](); // while(this.dealerHand.numOfCards() < 2) {
       //   this.dealerHand.receiveCard(this.deck.deal());
       //   this.playerHands.forEach((playerHand) => {
       //     if(playerHand){
@@ -236,17 +239,88 @@ function () {
     key: "hit",
     value: function hit() {
       this.playerHands[this.currentPlayerIndex].receiveCard(this.deck.deal());
+
+      if (this.playerHands[this.currentPlayerIndex].isBusted()) {
+        var bankroll = parseFloat(localStorage.getItem('bankroll'));
+        bankroll -= this.betAmounts[this.currentPlayerIndex];
+        localStorage.setItem('bankroll', bankroll);
+        this.render();
+        this.nextPlayer();
+      }
+
       this.render();
     }
   }, {
     key: "stand",
-    value: function stand() {}
+    value: function stand() {
+      this.nextPlayer();
+    }
   }, {
     key: "double",
     value: function double() {}
   }, {
     key: "split",
     value: function split() {}
+  }, {
+    key: "nextPlayer",
+    value: function nextPlayer() {
+      this.currentPlayerIndex++;
+
+      while (!this.playerHands[this.currentPlayerIndex]) {
+        this.currentPlayerIndex++;
+
+        if (this.currentPlayerIndex > this.playerHands.length) {
+          this.dealerHits();
+          break;
+        }
+      }
+    }
+  }, {
+    key: "dealerHits",
+    value: function dealerHits() {
+      var _this3 = this;
+
+      this.dealerHitting = true;
+      this.render();
+      setTimeout(function () {
+        if (_this3.dealerHand.has17()) {
+          _this3.settle();
+        } else {
+          _this3.dealerHand.receiveCard(_this3.deck.deal());
+
+          _this3.render();
+
+          _this3.dealerHits();
+        }
+      }, 1000);
+    }
+  }, {
+    key: "settle",
+    value: function settle() {
+      for (var i = 0; i < this.playerHands.length; i++) {
+        if (!this.playerHands[i]) continue;
+
+        if (!this.playerHands[i].isBusted()) {
+          if (this.dealerHand.isBusted()) {
+            var bankroll = parseFloat(localStorage.getItem('bankroll'));
+            bankroll += this.betAmounts[i];
+            localStorage.setItem('bankroll', bankroll);
+          } else if (this.dealerHand.cardValue() > this.playerHands[i].cardValue()) {
+            var _bankroll = parseFloat(localStorage.getItem('bankroll'));
+
+            _bankroll -= this.betAmounts[i];
+            localStorage.setItem('bankroll', _bankroll);
+          } else if (this.dealerHand.cardValue() < this.playerHands[i].cardValue()) {
+            var _bankroll2 = parseFloat(localStorage.getItem('bankroll'));
+
+            _bankroll2 += this.betAmounts[i];
+            localStorage.setItem('bankroll', _bankroll2);
+          }
+        }
+      }
+
+      this.render();
+    }
   }]);
 
   return BlackjackGame;
@@ -417,8 +491,16 @@ function () {
       };
     }
   }, {
+    key: "updateBankroll",
+    value: function updateBankroll() {
+      var bankroll = localStorage.getItem('bankroll');
+      document.getElementById("bankroll").innerHTML = "BANKROLL: $".concat(bankroll);
+    }
+  }, {
     key: "render",
     value: function render() {
+      this.updateBankroll();
+
       for (var seatNo = 0; seatNo < this.game.playerHands.length; seatNo++) {
         if (!this.game.playerHands[seatNo]) {
           continue;
@@ -592,6 +674,10 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
 function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
 
 function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
@@ -615,6 +701,14 @@ function (_Hand) {
 
     return _possibleConstructorReturn(this, _getPrototypeOf(DealerHand).call(this));
   }
+
+  _createClass(DealerHand, [{
+    key: "has17",
+    value: function has17() {
+      console.log(this.cardValue());
+      return this.cardValue() >= 17;
+    }
+  }]);
 
   return DealerHand;
 }(_hand__WEBPACK_IMPORTED_MODULE_1__["default"]);
@@ -847,7 +941,7 @@ function () {
 
           if (value === "A") {
             totalValue++;
-          } else if (value === "J" && value === "Q" && value === "K") {
+          } else if (value === "J" || value === "Q" || value === "K") {
             totalValue += 10;
           } else {
             totalValue += parseInt(value);
