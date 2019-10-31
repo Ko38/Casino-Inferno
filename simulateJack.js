@@ -24,12 +24,12 @@ function jackMagicSimulation(jackTag = -5, oneEyedJackTag = -14, triggerCount = 
       (card1.isOneEyedJack() && card3.isOneEyedJack()) || 
       (card2.isOneEyedJack() && card3.isOneEyedJack()) ) {
       twoOneEyedJacks++;
-      return 50;
+      return 40;
     } else if ((card1.isJack() && card2.isJack()) ||
       (card1.isJack() && card3.isJack()) ||
       (card2.isJack() && card3.isJack()))  {
       twoJacks++;
-      return 7;
+      return 8;
     } else if (card1.isOneEyedJack() || card2.isOneEyedJack() || card3.isOneEyedJack()) {
       oneOneEyedJack++;
       return 3;
@@ -54,7 +54,7 @@ function jackMagicSimulation(jackTag = -5, oneEyedJackTag = -14, triggerCount = 
 
   let units = 0;
   let betCount = 0;
-  for(let i = 0; i < 1000000; i++ ){
+  for(let i = 0; i < 2000000; i++ ){
     let deck = new Deck(6);
     let count = 0;
     while (!deck.isCutCardOut(104)) {
@@ -160,7 +160,11 @@ function jackMagicSimulation(jackTag = -5, oneEyedJackTag = -14, triggerCount = 
 //   jackMagicSimulation(tag.jackTag, tag.oneEyedJackTag, tag.triggerCount);
 // }
 
-jackMagicSimulation(-7, -17, 2);
+
+//jackMagicSimulation(-7, -17, 2);
+
+jackMagicSimulation(-7, -17, 4);
+
 
 // jack: -7 oneEyedJ: -17 triggerCount: 2:
 // unitsWon: 3741122

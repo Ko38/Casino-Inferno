@@ -157,7 +157,11 @@ class BlackjackGame {
         }
       }
     }
+    setTimeout(() => {
+      location.reload();
+    },1000);
     this.render();
+    
   }
 
 }

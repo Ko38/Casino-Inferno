@@ -319,6 +319,9 @@ function () {
         }
       }
 
+      setTimeout(function () {
+        location.reload();
+      }, 1000);
       this.render();
     }
   }]);
