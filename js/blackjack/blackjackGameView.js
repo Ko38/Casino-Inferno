@@ -22,11 +22,11 @@ class BlackjackGameView {
 
   setUpPlayerDecisionButtons() {
     document.getElementById("left-buttons").innerHTML = 
-      `<button class="nav-bar-button" id="hit-button">HIT</button>
-        <button class="nav-bar-button" id="double-button">DOUBLE</button>`;
+      `<button class="nav-bar-button" id="hit-button">HIT</button>`;
+        //<button class="nav-bar-button" id="double-button">DOUBLE</button>`;
     document.getElementById("right-buttons").innerHTML =
-      `<button class="nav-bar-button" id="stand-button">STAND</button>
-        <button class="nav-bar-button" id="split-button">SPLIT</button>`;
+      `<button class="nav-bar-button" id="stand-button">STAND</button>`;
+        //<button class="nav-bar-button" id="split-button">SPLIT</button>`;
     document.getElementById("hit-button").onclick = () => {
       this.game.hit();
     };

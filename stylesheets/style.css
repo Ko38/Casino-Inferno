@@ -20,6 +20,7 @@ body  {
 .btn-2h {
     border-radius: 20px;
 }
+
 .btn-2 {
     background: #c03737;
     color: #fff;
@@ -28,6 +29,16 @@ body  {
     -moz-transition: none;
     transition: none;
 }
+
+.btn-disabled {
+  background: #544d4d;
+  box-shadow: 0 6px #544d4d;
+  -webkit-transition: none;
+  -moz-transition: none;
+  transition: none;
+  width: 245px;
+}
+
 .btn {
     border: none;
     font-family: 'Lato', Calibri, Arial, sans-serif;

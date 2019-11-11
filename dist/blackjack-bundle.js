@@ -378,8 +378,9 @@ function () {
     value: function setUpPlayerDecisionButtons() {
       var _this = this;
 
-      document.getElementById("left-buttons").innerHTML = "<button class=\"nav-bar-button\" id=\"hit-button\">HIT</button>\n        <button class=\"nav-bar-button\" id=\"double-button\">DOUBLE</button>";
-      document.getElementById("right-buttons").innerHTML = "<button class=\"nav-bar-button\" id=\"stand-button\">STAND</button>\n        <button class=\"nav-bar-button\" id=\"split-button\">SPLIT</button>";
+      document.getElementById("left-buttons").innerHTML = "<button class=\"nav-bar-button\" id=\"hit-button\">HIT</button>"; //<button class="nav-bar-button" id="double-button">DOUBLE</button>`;
+
+      document.getElementById("right-buttons").innerHTML = "<button class=\"nav-bar-button\" id=\"stand-button\">STAND</button>"; //<button class="nav-bar-button" id="split-button">SPLIT</button>`;
 
       document.getElementById("hit-button").onclick = function () {
         _this.game.hit();
