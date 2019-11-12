@@ -88,6 +88,9 @@ class BlackjackGame {
       this.setUpPlayerDecisionButtons();
       
       for(let i = 0; i < this.playerHands.length; i++){
+        if(!this.playerHands[i]){
+          continue;
+        }
         if (this.playerHands[i].hasBlackjack()) {
           let bankroll = parseFloat(localStorage.getItem('bankroll'));
           bankroll += this.betAmounts[i] * 1.5;
