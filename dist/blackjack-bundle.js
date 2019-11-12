@@ -161,6 +161,14 @@ function () {
   }, {
     key: "placeBet",
     value: function placeBet(seatNo, betAmount) {
+      var sum = this.betAmounts.reduce(function (total, num) {
+        return total + num;
+      });
+
+      if (sum + betAmount > this.getCurrentBankroll()) {
+        return;
+      }
+
       this.betAmounts[seatNo] += betAmount;
     }
   }, {
@@ -227,6 +235,21 @@ function () {
       } else {
         //end
         this.setUpPlayerDecisionButtons();
+
+        for (var i = 0; i < this.playerHands.length; i++) {
+          if (this.playerHands[i].hasBlackjack()) {
+            var bankroll = parseFloat(localStorage.getItem('bankroll'));
+            bankroll += this.betAmounts[i] * 1.5;
+            localStorage.setItem('bankroll', bankroll);
+            this.blinkBalance();
+            this.results[i] = "WIN";
+            this.render();
+          }
+        }
+
+        if (this.playerHands[this.currentPlayerIndex].hasBlackjack()) {
+          this.nextPlayer();
+        }
       }
     }
   }, {
@@ -244,6 +267,12 @@ function () {
       setTimeout(function () {
         _this2.dealPlayerCards(0);
       }, 1000);
+    }
+  }, {
+    key: "getCurrentBankroll",
+    value: function getCurrentBankroll() {
+      var bankroll = parseFloat(localStorage.getItem('bankroll'));
+      return bankroll;
     }
   }, {
     key: "hit",
@@ -278,12 +307,12 @@ function () {
     value: function nextPlayer() {
       this.currentPlayerIndex++;
 
-      while (!this.playerHands[this.currentPlayerIndex]) {
+      while (!this.playerHands[this.currentPlayerIndex] || this.playerHands[this.currentPlayerIndex].hasBlackjack()) {
         this.currentPlayerIndex++;
 
         if (this.currentPlayerIndex > this.playerHands.length) {
           this.dealerHits();
-          break;
+          return;
         }
       }
     }
@@ -310,7 +339,7 @@ function () {
     key: "settle",
     value: function settle() {
       for (var i = 0; i < this.playerHands.length; i++) {
-        if (!this.playerHands[i]) continue;
+        if (!this.playerHands[i] || this.playerHands[i].hasBlackjack()) continue;
 
         if (!this.playerHands[i].isBusted()) {
           if (this.dealerHand.isBusted()) {
@@ -496,8 +525,14 @@ function () {
         _this4.seats[i].onclick = function () {
           _this4.game.placeBet(i, _this4.selectedChipAmount);
 
+          var betAmount = _this4.game.getCurrentBetAmount(i);
+
+          if (betAmount <= 0) {
+            return;
+          }
+
           _this4.seats[i].innerHTML = "<img src='./assets/empty_chip_25.png'></img>";
-          _this4.seats[i].innerHTML += "<div class='centered-betAmount'>" + _this4.game.getCurrentBetAmount(i) + "</div>";
+          _this4.seats[i].innerHTML += "<div class='centered-betAmount'>" + betAmount + "</div>";
         };
       };
 
@@ -976,9 +1011,9 @@ function () {
         return false;
       }
 
-      if (this.cards[0].value === "A" && (this.cards[1].value === "10" || this.cards[1].value === "J" || this.cards[1].value === "Q" || this.cards[1].value === "D")) {
+      if (this.cards[0].value === "A" && (this.cards[1].value === "10" || this.cards[1].value === "J" || this.cards[1].value === "Q" || this.cards[1].value === "K")) {
         return true;
-      } else if (this.cards[1].value === "A" && (this.cards[0].value === "10" || this.cards[0].value === "J" || this.cards[0].value === "Q" || this.cards[0].value === "D")) {
+      } else if (this.cards[1].value === "A" && (this.cards[0].value === "10" || this.cards[0].value === "J" || this.cards[0].value === "Q" || this.cards[0].value === "K")) {
         return true;
       }
 

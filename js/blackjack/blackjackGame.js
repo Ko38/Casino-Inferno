@@ -23,6 +23,13 @@ class BlackjackGame {
   }
 
   placeBet(seatNo, betAmount) {
+    let sum = this.betAmounts.reduce((total, num) => {
+      return total + num;
+    })
+
+    if (sum + betAmount > this.getCurrentBankroll()){
+      return;
+    }
     this.betAmounts[seatNo] += betAmount;
   }
 
@@ -79,6 +86,22 @@ class BlackjackGame {
       }
     } else { //end
       this.setUpPlayerDecisionButtons();
+      
+      for(let i = 0; i < this.playerHands.length; i++){
+        if (this.playerHands[i].hasBlackjack()) {
+          let bankroll = parseFloat(localStorage.getItem('bankroll'));
+          bankroll += this.betAmounts[i] * 1.5;
+          localStorage.setItem('bankroll', bankroll);
+          this.blinkBalance();
+          this.results[i] = "WIN";
+          this.render();
+        }
+      }
+      if(this.playerHands[this.currentPlayerIndex].hasBlackjack()){
+        this.nextPlayer();
+      }
+
+      
     }
   }
 
@@ -92,6 +115,11 @@ class BlackjackGame {
     setTimeout(() => {
       this.dealPlayerCards(0);
     }, 1000);
+  }
+
+  getCurrentBankroll() {
+    let bankroll = parseFloat(localStorage.getItem('bankroll'));
+    return bankroll;
   }
 
   hit() {
@@ -125,13 +153,14 @@ class BlackjackGame {
 
   nextPlayer() {
     this.currentPlayerIndex++;
-    while(!this.playerHands[this.currentPlayerIndex]) {
+    while(!this.playerHands[this.currentPlayerIndex] || this.playerHands[this.currentPlayerIndex].hasBlackjack()) {
       this.currentPlayerIndex++;
       if(this.currentPlayerIndex > this.playerHands.length) {
         this.dealerHits();
-        break;
+        return;
       }
     }
+    
   }
 
   dealerHits() {
@@ -150,7 +179,8 @@ class BlackjackGame {
 
   settle() {
     for(let i = 0; i <  this.playerHands.length; i++) {
-      if (!this.playerHands[i]) continue;
+      if (!this.playerHands[i] || this.playerHands[i].hasBlackjack()) continue;
+
       if (!this.playerHands[i].isBusted()) {
         if(this.dealerHand.isBusted()){
           let bankroll = parseFloat(localStorage.getItem('bankroll'));

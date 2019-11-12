@@ -11,10 +11,10 @@ class Hand {
     }
 
     if (this.cards[0].value === "A" && (this.cards[1].value === "10" || this.cards[1].value === "J" ||
-      this.cards[1].value === "Q" || this.cards[1].value === "D")){
+      this.cards[1].value === "Q" || this.cards[1].value === "K")){
         return true;
     } else if (this.cards[1].value === "A" && (this.cards[0].value === "10" || this.cards[0].value === "J" ||
-      this.cards[0].value === "Q" || this.cards[0].value === "D")) {
+      this.cards[0].value === "Q" || this.cards[0].value === "K")) {
       return true;
     }
     return false;

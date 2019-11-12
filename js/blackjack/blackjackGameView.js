@@ -81,8 +81,12 @@ class BlackjackGameView {
     for (let i = 0; i < this.seats.length; i++) {
       this.seats[i].onclick = () => {
         this.game.placeBet(i, this.selectedChipAmount);
+        let betAmount = this.game.getCurrentBetAmount(i);
+        if(betAmount <= 0){
+          return;
+        }
         this.seats[i].innerHTML = "<img src='./assets/empty_chip_25.png'></img>";
-        this.seats[i].innerHTML += "<div class='centered-betAmount'>" + this.game.getCurrentBetAmount(i) + "</div>";
+        this.seats[i].innerHTML += "<div class='centered-betAmount'>" + betAmount + "</div>";
       };
     }
   }
