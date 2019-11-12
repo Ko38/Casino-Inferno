@@ -27,10 +27,25 @@
 } */
 
 
-.bankroll {
+.balance {
   float: right;
-  font-size: 20px;
+  font-size: 50px;
   font-family: 'Lato', Calibri, Arial, sans-serif;
+}
+
+.blinking{
+  animation:blinkingText 0.8s infinite;
+}
+@keyframes blinkingText{
+  0%{     color: #000;    }
+  49%{    color: #d8d875; }
+  50%{    color: #d8d875; }
+  99%{    color: #d8d875;  }
+  100%{   color: #000;    }
+}
+
+.bankroll {
+  color: green;
 }
 
 

@@ -5,7 +5,7 @@ let setUpBankroll = () => {
     bankroll = "100.00";
     localStorage.setItem('bankroll', bankroll);
   }
-  document.getElementById("bankroll").innerHTML = `BANKROLL: $${bankroll}`;
+  document.getElementById("bankroll").innerHTML = `$${bankroll}`;
 };
 
 //Test

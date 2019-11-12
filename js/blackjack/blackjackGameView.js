@@ -2,7 +2,7 @@ import BlackjackGame from "./blackjackGame.js";
 
 class BlackjackGameView {
   constructor() {
-    this.game = new BlackjackGame(this.render.bind(this));
+    this.game = new BlackjackGame(this.render.bind(this), this.blinkBalance.bind(this));
     this.seats = [
       document.getElementById("seat0"), document.getElementById("seat1"), 
       document.getElementById("seat2")
@@ -33,12 +33,12 @@ class BlackjackGameView {
     document.getElementById("stand-button").onclick = () => {
       this.game.stand();
     };
-    document.getElementById("double-button").onclick = () => {
-      this.game.double();
-    };
-    document.getElementById("split-button").onclick = () => {
-      this.game.split();
-    };
+    // document.getElementById("double-button").onclick = () => {
+    //   this.game.double();
+    // };
+    // document.getElementById("split-button").onclick = () => {
+    //   this.game.split();
+    // };
   }
 
   startGame() {
@@ -46,7 +46,12 @@ class BlackjackGameView {
     this.setUpClearEvents();
     document.getElementById("deal-button").onclick = () => {
       if(this.game.deal()) {
-        this.setUpPlayerDecisionButtons();
+        this.game.setUpDecisionButtons(this.setUpPlayerDecisionButtons.bind(this));
+        document.getElementById("deal-button").disabled = true;
+        document.getElementById("clear-button").disabled = true;
+        document.getElementById("seat2").disabled = true;
+        document.getElementById("seat1").disabled = true;
+        document.getElementById("seat0").disabled = true;
       }
 
     };
@@ -93,7 +98,18 @@ class BlackjackGameView {
 
   updateBankroll() {
     let bankroll = localStorage.getItem('bankroll');
-    document.getElementById("bankroll").innerHTML = `BANKROLL: $${bankroll}`;
+    document.getElementById("bankroll").innerHTML = `$${bankroll}`;
+  }
+
+  blinkBalance() {
+    document.getElementById("balance").classList.add("blinking");
+    document.getElementById("bankroll").classList.add("blinking");
+
+    setTimeout(() => {
+      document.getElementById("balance").classList.remove("blinking");
+      document.getElementById("bankroll").classList.remove("blinking");
+  
+    }, 3000);
   }
 
   render() {
@@ -128,6 +144,22 @@ class BlackjackGameView {
         
       }
     }
+
+    let player0pointValue = this.game.playerHands[0] ? this.game.playerHands[0].cardValue() : "";
+    let player1pointValue = this.game.playerHands[1] ? this.game.playerHands[1].cardValue() : "";
+    let player2pointValue = this.game.playerHands[2] ? this.game.playerHands[2].cardValue() : "";
+    let dealerPointValue = this.game.dealerHand ? this.game.dealerHand.cardValue() : "";
+    if(!this.game.dealerHitting){
+      dealerPointValue = this.game.dealerHand.firstCardValue();
+    }
+    document.getElementById("seat0pointValue").innerHTML = player0pointValue;
+    document.getElementById("seat1pointValue").innerHTML = player1pointValue;
+    document.getElementById("seat2pointValue").innerHTML = player2pointValue;
+    document.getElementById("dealerPointValue").innerHTML = dealerPointValue;
+
+    document.getElementById("seat0result").innerHTML = this.game.results[0];
+    document.getElementById("seat1result").innerHTML = this.game.results[1];
+    document.getElementById("seat2result").innerHTML = this.game.results[2];
   }
 }
 

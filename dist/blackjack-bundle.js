@@ -137,7 +137,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 var BlackjackGame =
 /*#__PURE__*/
 function () {
-  function BlackjackGame(render) {
+  function BlackjackGame(render, blinkBalance) {
     _classCallCheck(this, BlackjackGame);
 
     this.betAmounts = [0, 0, 0];
@@ -146,7 +146,9 @@ function () {
     this.dealerHand = null;
     this.dealerHitting = false;
     this.render = render;
+    this.blinkBalance = blinkBalance;
     this.currentPlayerIndex = 0;
+    this.results = ["", "", ""];
   }
 
   _createClass(BlackjackGame, [{
@@ -222,7 +224,15 @@ function () {
             _this.dealPlayerCards(index + 1);
           }, 1000);
         }
+      } else {
+        //end
+        this.setUpPlayerDecisionButtons();
       }
+    }
+  }, {
+    key: "setUpDecisionButtons",
+    value: function setUpDecisionButtons(setUpPlayerDecisionButtons) {
+      this.setUpPlayerDecisionButtons = setUpPlayerDecisionButtons;
     }
   }, {
     key: "dealDealerCard",
@@ -244,6 +254,8 @@ function () {
         var bankroll = parseFloat(localStorage.getItem('bankroll'));
         bankroll -= this.betAmounts[this.currentPlayerIndex];
         localStorage.setItem('bankroll', bankroll);
+        this.blinkBalance();
+        this.results[this.currentPlayerIndex] = "LOSS";
         this.render();
         this.nextPlayer();
       }
@@ -304,24 +316,32 @@ function () {
           if (this.dealerHand.isBusted()) {
             var bankroll = parseFloat(localStorage.getItem('bankroll'));
             bankroll += this.betAmounts[i];
+            this.results[i] = "WIN";
             localStorage.setItem('bankroll', bankroll);
+            this.blinkBalance();
           } else if (this.dealerHand.cardValue() > this.playerHands[i].cardValue()) {
             var _bankroll = parseFloat(localStorage.getItem('bankroll'));
 
             _bankroll -= this.betAmounts[i];
+            this.results[i] = "LOSS";
             localStorage.setItem('bankroll', _bankroll);
+            this.blinkBalance();
           } else if (this.dealerHand.cardValue() < this.playerHands[i].cardValue()) {
             var _bankroll2 = parseFloat(localStorage.getItem('bankroll'));
 
             _bankroll2 += this.betAmounts[i];
+            this.results[i] = "WIN";
             localStorage.setItem('bankroll', _bankroll2);
+            this.blinkBalance();
+          } else {
+            this.results[i] = "PUSH";
           }
         }
       }
 
       setTimeout(function () {
         location.reload();
-      }, 1000);
+      }, 4000);
       this.render();
     }
   }]);
@@ -357,7 +377,7 @@ function () {
   function BlackjackGameView() {
     _classCallCheck(this, BlackjackGameView);
 
-    this.game = new _blackjackGame_js__WEBPACK_IMPORTED_MODULE_0__["default"](this.render.bind(this));
+    this.game = new _blackjackGame_js__WEBPACK_IMPORTED_MODULE_0__["default"](this.render.bind(this), this.blinkBalance.bind(this));
     this.seats = [document.getElementById("seat0"), document.getElementById("seat1"), document.getElementById("seat2")];
     this.selectedChipAmount = 1;
     this.setUpSelectChipEvents();
@@ -388,15 +408,13 @@ function () {
 
       document.getElementById("stand-button").onclick = function () {
         _this.game.stand();
-      };
+      }; // document.getElementById("double-button").onclick = () => {
+      //   this.game.double();
+      // };
+      // document.getElementById("split-button").onclick = () => {
+      //   this.game.split();
+      // };
 
-      document.getElementById("double-button").onclick = function () {
-        _this.game["double"]();
-      };
-
-      document.getElementById("split-button").onclick = function () {
-        _this.game.split();
-      };
     }
   }, {
     key: "startGame",
@@ -408,7 +426,13 @@ function () {
 
       document.getElementById("deal-button").onclick = function () {
         if (_this2.game.deal()) {
-          _this2.setUpPlayerDecisionButtons();
+          _this2.game.setUpDecisionButtons(_this2.setUpPlayerDecisionButtons.bind(_this2));
+
+          document.getElementById("deal-button").disabled = true;
+          document.getElementById("clear-button").disabled = true;
+          document.getElementById("seat2").disabled = true;
+          document.getElementById("seat1").disabled = true;
+          document.getElementById("seat0").disabled = true;
         }
       };
     }
@@ -498,7 +522,17 @@ function () {
     key: "updateBankroll",
     value: function updateBankroll() {
       var bankroll = localStorage.getItem('bankroll');
-      document.getElementById("bankroll").innerHTML = "BANKROLL: $".concat(bankroll);
+      document.getElementById("bankroll").innerHTML = "$".concat(bankroll);
+    }
+  }, {
+    key: "blinkBalance",
+    value: function blinkBalance() {
+      document.getElementById("balance").classList.add("blinking");
+      document.getElementById("bankroll").classList.add("blinking");
+      setTimeout(function () {
+        document.getElementById("balance").classList.remove("blinking");
+        document.getElementById("bankroll").classList.remove("blinking");
+      }, 3000);
     }
   }, {
     key: "render",
@@ -534,6 +568,23 @@ function () {
           }
         }
       }
+
+      var player0pointValue = this.game.playerHands[0] ? this.game.playerHands[0].cardValue() : "";
+      var player1pointValue = this.game.playerHands[1] ? this.game.playerHands[1].cardValue() : "";
+      var player2pointValue = this.game.playerHands[2] ? this.game.playerHands[2].cardValue() : "";
+      var dealerPointValue = this.game.dealerHand ? this.game.dealerHand.cardValue() : "";
+
+      if (!this.game.dealerHitting) {
+        dealerPointValue = this.game.dealerHand.firstCardValue();
+      }
+
+      document.getElementById("seat0pointValue").innerHTML = player0pointValue;
+      document.getElementById("seat1pointValue").innerHTML = player1pointValue;
+      document.getElementById("seat2pointValue").innerHTML = player2pointValue;
+      document.getElementById("dealerPointValue").innerHTML = dealerPointValue;
+      document.getElementById("seat0result").innerHTML = this.game.results[0];
+      document.getElementById("seat1result").innerHTML = this.game.results[1];
+      document.getElementById("seat2result").innerHTML = this.game.results[2];
     }
   }]);
 
@@ -709,8 +760,24 @@ function (_Hand) {
   _createClass(DealerHand, [{
     key: "has17",
     value: function has17() {
-      console.log(this.cardValue());
       return this.cardValue() >= 17;
+    }
+  }, {
+    key: "firstCardValue",
+    value: function firstCardValue() {
+      if (!this.cards[0]) {
+        return "";
+      }
+
+      var value = this.cards[0].value;
+
+      if (value === "A") {
+        return 11;
+      } else if (value === "J" || value === "Q" || value === "K") {
+        return 10;
+      }
+
+      return value;
     }
   }]);
 
@@ -1003,7 +1070,7 @@ var setUpBankroll = function setUpBankroll() {
     localStorage.setItem('bankroll', bankroll);
   }
 
-  document.getElementById("bankroll").innerHTML = "BANKROLL: $".concat(bankroll);
+  document.getElementById("bankroll").innerHTML = "$".concat(bankroll);
 }; //Test
 
 

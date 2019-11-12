@@ -173,8 +173,8 @@ body  {
   height: 138px;
   background: white;
   border-radius: 12px;
-
 }
+
 
 .value {
 
@@ -328,6 +328,58 @@ body  {
   bottom: 56%;
 }
 
+.seat0result {
+  position: absolute;
+  right: 22%;
+  bottom: 48%;
+}
+
+.seat1result {
+  position: absolute;
+  left: 34%;
+  bottom: 48%;
+}
+
+.seat2result {
+  position: absolute;
+  left: 2%;
+  bottom: 48%;
+}
+
+.result {
+  font-size: 42px;
+  color: #9affa2;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.seat0pointValue {
+  position: absolute;
+  right: 22%;
+  bottom: 42%;
+}
+
+.seat1pointValue {
+  position: absolute;
+  left: 34%;
+  bottom: 42%;
+}
+
+.seat2pointValue {
+  position: absolute;
+  left: 2%;
+  bottom: 42%;
+}
+
+.dealerPointValue {
+  position: absolute;
+  left: 48%;
+  top: 22%;
+}
+
+.pointValue {
+  font-size: 72px;
+}
+
 .dealerCard0 {
   
 }
@@ -354,4 +406,18 @@ body  {
 
 .right-buttons {
   display: flex;
+}
+
+.pointValue {
+  border: none;
+  background-color: rgba(0,0,0,0.5);;
+  
+  text-align: center;
+    display:table-cell;
+    vertical-align:middle;
+  font-size: 32px;
+  border-radius: 20px;
+  width: 80px;
+  height: 40px; 
+  color: #39e4ff;
 }

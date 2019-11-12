@@ -17,7 +17,11 @@
       <a href="./index.html" class="x">
         <img alt="" src="./assets/exitButton.png" width="50" height="50">
       </a>
-      <span class="bankroll" id="bankroll"></span>
+      <span class="balance " id="balance">Balance: 
+        <span class="bankroll" id="bankroll">
+
+        </span>
+      </span>
     </div>
     <div class="main-content">
       <div class="dealerCards-container">
@@ -39,102 +43,116 @@
       <button class="placeBetButton placeBetButton0" id="seat0">
       
       </button>
-      <div class="seat0card0 card" id="card00">
+      <div class="seat0pointValue pointValue" id="seat0pointValue">
+      </div>
+      <div class="seat1pointValue pointValue" id="seat1pointValue">
+      </div>
+      <div class="seat2pointValue pointValue" id="seat2pointValue">
+      </div>
+      <div class="seat0result result" id="seat0result"> 
+      </div>
+      <div class="seat1result result" id="seat1result"> 
+      </div>
+      <div class="seat2result result" id="seat2result"> 
+      </div>
+      <div class="dealerPointValue pointValue" id="dealerPointValue">
+      </div>
+      <div class="seat0card0 card" id="card00" style="visibility:hidden;">
         <div class="value" id="value00">A</div>
         <div class="spades" id="suit00"></div>  
       </div>
-      <div class="seat0card1 card" id="card01">
+      <div class="seat0card1 card" id="card01" style="visibility:hidden;">
         <div class="value" id="value01">2</div>
         <div class="spades" id="suit01"></div>
       </div>
-      <div class="seat0card2 card" id="card02">
+      <div class="seat0card2 card" id="card02" style="visibility:hidden;">
         <div class="value" id="value02">3</div>
         <div class="spades" id="suit02"></div>
       </div>
-      <div class="seat0card3 card" id="card03">
+      <div class="seat0card3 card" id="card03" style="visibility:hidden;">
         <div class="value" id="value03">4</div>
         <div class="spades" id="suit03"></div>
       </div>
-      <div class="seat0card4 card" id="card04">
+      <div class="seat0card4 card" id="card04" style="visibility:hidden;">
         <div class="value" id="value04">5</div>
         <div class="spades" id="suit04"></div>
       </div>
-      <div class="seat0card5 card" id="card05">
+      <div class="seat0card5 card" id="card05" style="visibility:hidden;">
         <div class="value" id="value05">6</div>
         <div class="spades" id="suit05"></div>
       </div>
-      <div class="seat0card6 card" id="card06">
+      <div class="seat0card6 card" id="card06" style="visibility:hidden;">
         <div class="value" id="value06">7</div>
         <div class="spades" id="suit06"></div>
       </div>
-      <div class="seat0card7 card" id="card07">
+      <div class="seat0card7 card" id="card07" style="visibility:hidden;">
         <div class="value" id="value07">8</div>
         <div class="spades" id="suit07"></div>
       </div>
 
-      <div class="seat1card0 card" id="card10">
+      <div class="seat1card0 card" id="card10" style="visibility:hidden;">
         <div class="value" id="value10">A</div>
         <div class="diamonds" id="suit10"></div>
       </div>
-      <div class="seat1card1 card" id="card11">
+      <div class="seat1card1 card" id="card11" style="visibility:hidden;">
         <div class="value" id="value11">2</div>
         <div class="diamonds" id="suit11"></div>
       </div>
-      <div class="seat1card2 card" id="card12">
+      <div class="seat1card2 card" id="card12" style="visibility:hidden;">
         <div class="value" id="value12">3</div>
         <div class="diamonds" id="suit12"></div>
       </div>
-      <div class="seat1card3 card" id="card13">
+      <div class="seat1card3 card" id="card13" style="visibility:hidden;">
         <div class="value" id="value13">4</div>
         <div class="diamonds" id="suit13"></div>
       </div>
-      <div class="seat1card4 card" id="card14">
+      <div class="seat1card4 card" id="card14" style="visibility:hidden;">
         <div class="value" id="value14">5</div>
         <div class="diamonds" id="suit14"></div>
       </div>
-      <div class="seat1card5 card" id="card15">
+      <div class="seat1card5 card" id="card15" style="visibility:hidden;">
         <div class="value" id="value15">6</div>
         <div class="diamonds" id="suit15"></div>
       </div>
-      <div class="seat1card6 card" id="card16">
+      <div class="seat1card6 card" id="card16" style="visibility:hidden;">
         <div class="value" id="value16">7</div>
         <div class="diamonds" id="suit16"></div>
       </div>
-      <div class="seat1card7 card" id="card17">
+      <div class="seat1card7 card" id="card17" style="visibility:hidden;">
         <div class="value" id="value17">8</div>
         <div class="diamonds" id="suit17"></div>
       </div>
 
 
-      <div class="seat2card0 card" id="card20">
+      <div class="seat2card0 card" id="card20" style="visibility:hidden;">
       <div class="value" id="value20">A</div>
         <div class="hearts" id="suit20"></div>
       </div>
-      <div class="seat2card1 card" id="card21">
+      <div class="seat2card1 card" id="card21" style="visibility:hidden;">
         <div class="value" id="value21">2</div>
         <div class="hearts" id="suit21"></div>
       </div>
-      <div class="seat2card2 card" id="card22">
+      <div class="seat2card2 card" id="card22" style="visibility:hidden;">
         <div class="value" id="value22">3</div>
         <div class="hearts" id="suit22"></div>
       </div>
-      <div class="seat2card3 card" id="card23">
+      <div class="seat2card3 card" id="card23" style="visibility:hidden;">
         <div class="value" id="value23">4</div>
         <div class="hearts" id="suit23"></div>
       </div>
-      <div class="seat2card4 card" id="card24">
+      <div class="seat2card4 card" id="card24" style="visibility:hidden;">
         <div class="value" id="value24">5</div>
         <div class="hearts" id="suit24"></div>
       </div>
-      <div class="seat2card5 card" id="card25">
+      <div class="seat2card5 card" id="card25" style="visibility:hidden;">
         <div class="value" id="value25">6</div>
         <div class="hearts" id="suit25"></div>
       </div>
-      <div class="seat2card6 card" id="card26">
+      <div class="seat2card6 card" id="card26" style="visibility:hidden;">
         <div class="value" id="value26">7</div>
         <div class="hearts" id="suit26"></div>
       </div>
-      <div class="seat2card7 card" id="card27">
+      <div class="seat2card7 card" id="card27" style="visibility:hidden;">
         <div class="value" id="value27">8</div>
         <div class="hearts" id="suit27"></div>
       </div>

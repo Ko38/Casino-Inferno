@@ -7,8 +7,21 @@ class DealerHand extends Hand {
   }
 
   has17() {
-    console.log(this.cardValue());
     return this.cardValue() >= 17;
+  }
+
+  firstCardValue(){
+    if(!this.cards[0]){
+      return "";
+    }
+    let value = this.cards[0].value;
+    if(value === "A"){
+      return 11;
+    } else if (value === "J" || value === "Q" || value === "K") {
+      return 10;
+    } 
+
+    return value;
   }
 }
 

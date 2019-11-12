@@ -121,7 +121,7 @@ var setUpBankroll = function setUpBankroll() {
     localStorage.setItem('bankroll', bankroll);
   }
 
-  document.getElementById("bankroll").innerHTML = "BANKROLL: $".concat(bankroll);
+  document.getElementById("bankroll").innerHTML = "$".concat(bankroll);
 }; //Test
 
 

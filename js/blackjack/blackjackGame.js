@@ -4,14 +4,16 @@ import Card from "./card";
 import DealerHand from "./dealerHand";
 
 class BlackjackGame {
-  constructor(render) {
+  constructor(render, blinkBalance) {
     this.betAmounts = [0, 0, 0];
     this.playerHands = [null, null, null];
     this.deck = new Deck(2);
     this.dealerHand = null;
     this.dealerHitting = false;
     this.render = render;
+    this.blinkBalance = blinkBalance;
     this.currentPlayerIndex = 0;
+    this.results = ["","",""];
   }
 
   clearBets() {
@@ -75,7 +77,13 @@ class BlackjackGame {
           this.dealPlayerCards(index+1);
         }, 1000);
       }
-    } 
+    } else { //end
+      this.setUpPlayerDecisionButtons();
+    }
+  }
+
+  setUpDecisionButtons(setUpPlayerDecisionButtons){
+    this.setUpPlayerDecisionButtons = setUpPlayerDecisionButtons;
   }
 
   dealDealerCard() { 
@@ -93,6 +101,8 @@ class BlackjackGame {
       let bankroll = parseFloat(localStorage.getItem('bankroll'));
       bankroll -= this.betAmounts[this.currentPlayerIndex];
       localStorage.setItem('bankroll', bankroll);
+      this.blinkBalance();
+      this.results[this.currentPlayerIndex] = "LOSS";
       this.render();
       this.nextPlayer();
     }
@@ -145,21 +155,29 @@ class BlackjackGame {
         if(this.dealerHand.isBusted()){
           let bankroll = parseFloat(localStorage.getItem('bankroll'));
           bankroll += this.betAmounts[i];
+          this.results[i] = "WIN";
           localStorage.setItem('bankroll', bankroll);
+          this.blinkBalance();
         } else if (this.dealerHand.cardValue() > this.playerHands[i].cardValue()) {
           let bankroll = parseFloat(localStorage.getItem('bankroll'));
           bankroll -= this.betAmounts[i];
+          this.results[i] = "LOSS";
           localStorage.setItem('bankroll', bankroll);
+          this.blinkBalance();
         } else if (this.dealerHand.cardValue() < this.playerHands[i].cardValue()) {
           let bankroll = parseFloat(localStorage.getItem('bankroll'));
           bankroll += this.betAmounts[i];
+          this.results[i] = "WIN";
           localStorage.setItem('bankroll', bankroll);
+          this.blinkBalance();
+        } else {
+          this.results[i] = "PUSH";
         }
       }
     }
     setTimeout(() => {
       location.reload();
-    },1000);
+    },4000);
     this.render();
     
   }
