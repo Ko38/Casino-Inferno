@@ -1105,7 +1105,7 @@ var setUpBankroll = function setUpBankroll() {
   var bankroll = localStorage.getItem('bankroll');
 
   if (parseInt(bankroll) <= 0) {
-    document.getElementById("bj-content").innerHTML += "<div class=\"alert\">\n    <span class=\"closebtn\" onclick=\"this.parentElement.style.display='none';\">&times;</span> \n    <strong>You went bankrupt!</strong> <br/>Your balance is reset to $100.00.\n  </div>";
+    document.getElementById("casino-content").innerHTML += "<div class=\"alert\">\n    <span class=\"closebtn\" onclick=\"this.parentElement.style.display='none';\">&times;</span> \n    <strong>You went bankrupt!</strong> <br/>Your balance is reset to $100.00.\n  </div>";
     bankroll = "100.00";
     localStorage.setItem('bankroll', bankroll);
   } else if (!parseInt(bankroll)) {
