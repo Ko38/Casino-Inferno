@@ -7,6 +7,13 @@ class Deck {
     this.numOfRounds = 0;
   }
 
+  baccaratBurn() {
+    let card = this.cards.shift();
+    for(let i = 0; i < card.faceValue; i++){
+      this.cards.shift();
+    }
+  }
+
   shuffle() {
     this.cards = Card.allCards(this.numOfDecks);
     for (let i = this.cards.length - 1; i > 0; i--) {

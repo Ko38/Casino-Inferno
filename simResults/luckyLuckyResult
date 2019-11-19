@@ -63,3 +63,12 @@ Bet 86790900 times
 Watched 290000000 rounds
 EV: 0.06212691653157186
 BetFrequency: 0.29927896551724137
+
+
+//8 Deck cut 52 cards 
+//suited21 pays 10to 1 trigger count 4
+unitsWon:58276
+Bet 1053805 times
+Watched 12200000 rounds
+EV: 0.05530055370775428
+BetFrequency: 0.08637745901639345

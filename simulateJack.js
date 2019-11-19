@@ -1,5 +1,6 @@
 const Deck = require("./js/blackjack/deck");
 // 1 3 7 50 100 500
+// 1 3 8 40 100 500
 //one eyed - spades hearts
 function jackMagicSimulation(jackTag = -5, oneEyedJackTag = -14, triggerCount = 2) {
   
@@ -24,12 +25,12 @@ function jackMagicSimulation(jackTag = -5, oneEyedJackTag = -14, triggerCount = 
       (card1.isOneEyedJack() && card3.isOneEyedJack()) || 
       (card2.isOneEyedJack() && card3.isOneEyedJack()) ) {
       twoOneEyedJacks++;
-      return 40;
+      return 50;
     } else if ((card1.isJack() && card2.isJack()) ||
       (card1.isJack() && card3.isJack()) ||
       (card2.isJack() && card3.isJack()))  {
       twoJacks++;
-      return 8;
+      return 7;
     } else if (card1.isOneEyedJack() || card2.isOneEyedJack() || card3.isOneEyedJack()) {
       oneOneEyedJack++;
       return 3;
@@ -97,8 +98,15 @@ function jackMagicSimulation(jackTag = -5, oneEyedJackTag = -14, triggerCount = 
   // console.log(twoJacksProbability);
   // console.log(twoOneEyedJacksProbability);
   // console.log(threeJacksProbability);
-  // console.log(threeOneEyedJacksProbability);
+  // console.log(threeOneEyedJacksProbability);//
   // console.log(lossProbability);
+  // 0.09893387142857143
+  // 0.09890339285714286
+  // 0.0120643
+  // 0.003791307142857143
+  // 0.0003596285714285714
+  // 0.00004354285714285714
+  // 0.7859039571428571
 
   // 1 3 7 50 100 500
   let EV = oneJackProbability * 1 + oneOneEyedJackProbability * 3

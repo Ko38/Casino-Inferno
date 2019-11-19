@@ -72,10 +72,10 @@ function luckyLuckySimulation(triggerCount = 2) {
 
   let units = 0;
   let betCount = 0;
-  for(let i = 0; i < 10000000; i++ ){
-    let deck = new Deck(2);
+  for(let i = 0; i < 100000; i++ ){
+    let deck = new Deck(8);
     let count = 0;
-    while (!deck.isCutCardOut(26)) {
+    while (!deck.isCutCardOut(52)) {
       let triggered = (count / deck.decksLeft()) >= triggerCount;
 
       let card1 = deck.deal();
@@ -88,6 +88,9 @@ function luckyLuckySimulation(triggerCount = 2) {
       if (triggered) {
         betCount++;
         units += payout;
+        // if(units <= -200){
+        //   return true;
+        // }
       }
     }
   }
@@ -97,8 +100,8 @@ function luckyLuckySimulation(triggerCount = 2) {
   console.log(`EV: ${units/betCount}`);
   console.log(`BetFrequency: ${betCount/handsPlayed}`);
 
-  console.log(`hitInsurance: ${hitInsurance}`);
-  console.log(`lostHands:${lostHands}`);
+  // console.log(`hitInsurance: ${hitInsurance}`);
+  // console.log(`lostHands:${lostHands}`);
 }
 
 
@@ -108,7 +111,21 @@ function luckyLuckySimulation(triggerCount = 2) {
 //   console.log("\n");
 // }
 
-luckyLuckySimulation(4);
+// let bankruptTimes = 0;
+// let totalRounds = 1000;
+// for(let i = 0; i < totalRounds; i++){
+//   if(luckyLuckySimulation()) {
+//     bankruptTimes++;
+//   }
+  
+// }
+
+// console.log(`RoR ${bankruptTimes/totalRounds}`)
+
+
+luckyLuckySimulation(5);
+
+
 
 //2
 // unitsWon: 315475
