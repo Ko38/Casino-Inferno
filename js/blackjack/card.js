@@ -11,6 +11,10 @@ class Card {
     return this.value === "J";
   }
 
+  isFaceCard(){
+    return this.value === "J" || this.value === "Q" || this.value === "K";
+  }
+
   isOneEyed() {
     return this.suit === "hearts" || this.suit === "spades";
   }
