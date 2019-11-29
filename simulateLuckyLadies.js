@@ -44,9 +44,9 @@ function luckyLadiesSimulation(triggerCount = 2) {
     } else if (queenOfHearts){
       return 200;
     } else if (matched && hasTwenty){
-      return 19;
+      return 25;
     } else if (suited && hasTwenty){
-      return 9
+      return 10;
     } else if (hasTwenty){
       return 4;
     }
