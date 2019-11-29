@@ -42,7 +42,7 @@ function luckyLadiesSimulation(triggerCount = 2) {
     if(dealerHasBlackjack && queenOfHearts){
       return 1000;
     } else if (queenOfHearts){
-      return 125;
+      return 200;
     } else if (matched && hasTwenty){
       return 19;
     } else if (suited && hasTwenty){
