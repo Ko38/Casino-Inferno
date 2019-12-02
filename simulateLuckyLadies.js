@@ -38,7 +38,7 @@ function luckyLadiesSimulation(triggerCount = 2) {
       (card4.value === "10" || card4.value === "J" || card4.value === "Q" || card4.value === "K")) ||
       (card3.value === "9" && card4.value === "A") || (card4.value === "9" && card3.value === "A") ;
     let matched = card3.value === card4.value && card3.suit === card4.suit;
-
+    //kings bounty?
     if(dealerHasBlackjack && queenOfHearts){
       return 1000;
     } else if (queenOfHearts){
@@ -68,7 +68,7 @@ function luckyLadiesSimulation(triggerCount = 2) {
 
   let units = 0;
   let betCount = 0;
-  for(let i = 0; i < 10000000; i++ ){
+  for(let i = 0; i < 1000000; i++ ){
     let deck = new Deck(2);
     let count = 0;
     while (!deck.isCutCardOut(52)) {
@@ -104,6 +104,9 @@ function luckyLadiesSimulation(triggerCount = 2) {
 //   console.log("\n");
 // }
 
+luckyLadiesSimulation(10);
+luckyLadiesSimulation(11);
+luckyLadiesSimulation(12);
 luckyLadiesSimulation(13);
 luckyLadiesSimulation(14);
 luckyLadiesSimulation(15);
