@@ -1,4 +1,5 @@
 const Deck = require("./js/blackjack/deck");
+let currentTime = new Date();
 
 function luckyLuckySimulation(triggerCount = 2) {
   
@@ -39,15 +40,15 @@ function luckyLuckySimulation(triggerCount = 2) {
       (card1.value === "8" && card2.value === "7" && card3.value === "6");
 
     if (suited && card1.value === "7" && card2.value === "7" && card3.value === "7") {
-      return 200;
+      return 299;
     } else if (suited && sixSevenEight) {
-      return 100;
+      return 150;
     } else if (card1.value === "7" && card2.value === "7" && card3.value === "7") {
       return 50;
     } else if (sixSevenEight) {
       return 30;
     } else if (calculateValue(card1, card2, card3) === 21 && suited) {
-      return 10;
+      return 15;
     } else if (calculateValue(card1, card2, card3) === 21) {
       return 3;
     } else if (calculateValue(card1, card2, card3) === 20) {
@@ -72,10 +73,10 @@ function luckyLuckySimulation(triggerCount = 2) {
 
   let units = 0;
   let betCount = 0;
-  for(let i = 0; i < 100000; i++ ){
-    let deck = new Deck(8);
+  for(let i = 0; i < 200000000; i++ ){
+    let deck = new Deck(6);
     let count = 0;
-    while (!deck.isCutCardOut(52)) {
+    while (!deck.isCutCardOut(72)) {
       let triggered = (count / deck.decksLeft()) >= triggerCount;
 
       let card1 = deck.deal();
@@ -92,6 +93,14 @@ function luckyLuckySimulation(triggerCount = 2) {
         //   return true;
         // }
       }
+    }
+    if (new Date() - currentTime > 60000) {
+      console.log(`unitsWon:${units}`);
+      console.log(`Bet ${betCount} times`);
+      console.log(`Watched ${handsPlayed} rounds`);   
+      console.log(`EV: ${units/betCount}`);
+      console.log(`BetFrequency: ${betCount/handsPlayed}`);
+      currentTime = new Date();
     }
   }
   console.log(`unitsWon:${units}`);
@@ -123,7 +132,7 @@ function luckyLuckySimulation(triggerCount = 2) {
 // console.log(`RoR ${bankruptTimes/totalRounds}`)
 
 
-luckyLuckySimulation(5);
+luckyLuckySimulation(2);
 
 
 

@@ -1,4 +1,5 @@
 const Deck = require("./js/blackjack/deck");
+let currentTime = new Date();
 // 1 3 7 50 100 500
 // 1 3 8 40 100 500
 //one eyed - spades hearts
@@ -57,10 +58,10 @@ function jackMagicSimulation(jackTag = -5, oneEyedJackTag = -14, triggerCount = 
 
   let units = 0;
   let betCount = 0;
-  for(let i = 0; i < 20000000; i++ ){
+  for(let i = 0; i < 200000000; i++ ){
     let deck = new Deck(6);
     let count = 0;
-    while (!deck.isCutCardOut(104)) {
+    while (!deck.isCutCardOut(78)) {
       let triggered = (count / deck.decksLeft()) >= triggerCount;
       let card1 = deck.deal();
       let card2 = deck.deal();
@@ -74,6 +75,15 @@ function jackMagicSimulation(jackTag = -5, oneEyedJackTag = -14, triggerCount = 
         units += payout;
       }
     }
+    if (new Date() - currentTime > 60000) {
+      console.log(`unitsWon:${units}`);
+      console.log(`Bet ${betCount} times`);
+      console.log(`Watched ${handsPlayed} rounds`);   
+      console.log(`EV: ${units/betCount}`);
+      console.log(`BetFrequency: ${betCount/handsPlayed}`);
+      currentTime = new Date();
+    }
+
   }
   console.log(`unitsWon:${units}`);
   console.log(`Bet ${betCount} times`);
