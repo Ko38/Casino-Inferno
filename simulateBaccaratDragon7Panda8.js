@@ -1,7 +1,7 @@
 const Deck = require("./js/blackjack/deck");
-let currentTime = new Date();
-
-function baccaratSimulation(cutCard, triggerCount = 32) {
+// 1 3 7 50 100 500
+//one eyed - spades hearts
+function baccaratSimulation(cutCard) {
   
   let hitGrandMonkey = 0;
   let missedGrandMonkey = 0;
@@ -16,16 +16,21 @@ function baccaratSimulation(cutCard, triggerCount = 32) {
 
   let counting = (card) => {
 
-    if (card.value === "4" || card.value === "6" || card.value === "7" || card.value === "5") {
-      return -1;
+    if( card.value === "10" || card.value === "J"
+    || card.value === "Q" || card.value === "K" || card.value === "A"){
+      return 1;
+    } else if (card.value === "3" || card.value === "6" || card.value === "7") {
+      return -2;
+    } else if (card.value === "4" || card.value === "5"){
+      return -3;
     } else if (card.value === "8"){
       return 2;
     } else if (card.value === "9"){
-      return 2;
-    } 
-    else if (card.value === "A") {
-      return 1;
+      return 5;
     }
+    // else if (card.value === "A") {
+    //   return 1;
+    // }
     return 0;
   };
 
@@ -58,11 +63,9 @@ function baccaratSimulation(cutCard, triggerCount = 32) {
 
   let pandaUnits = 0;
   let dragonUnits = 0;
-  let triggerCountUnits = 0;
-  let triggerCountBetCount = 0;
   let dragonBetCount = 0;
   let pandaBetCount = 0;
-  for(let i = 0; i < 200000000; i++ ){
+  for(let i = 0; i < 50000000; i++ ){
     let deck = new Deck(8);
     // if (cardValueRemoved){
     //   deck.removeNCards(cardValueRemoved, 8);
@@ -70,8 +73,8 @@ function baccaratSimulation(cutCard, triggerCount = 32) {
     
     let count = 0;
     while (!deck.isCutCardOut(cutCard)) {
-      let dragonTriggered = count >= triggerCount;
-      let istriggerCount = count === triggerCount;
+      let dragonTriggered = count/deck.decksLeftEstimatedByRounds() >= 4;
+      let pandaTriggered = count/deck.decksLeftEstimatedByRounds() >= 17;
       deck.numOfRounds++;
       let playerCard1 = deck.deal();
       let bankerCard1 = deck.deal();
@@ -157,14 +160,13 @@ function baccaratSimulation(cutCard, triggerCount = 32) {
         settleGrandMonkey(playerCard1, playerCard2, bankerCard1, bankerCard2, undefined, undefined);
         let dragonPayout = settleDragon7(undefined, bankerTotal, playerTotal);
         let pandaPayout = settlePanda8(undefined, bankerTotal, playerTotal);
-        
+        if (pandaTriggered) {
+          pandaBetCount++;
+          pandaUnits += pandaPayout;
+        }
         if (dragonTriggered) {
           dragonBetCount++;
           dragonUnits += dragonPayout;
-          if(istriggerCount){
-            triggerCountUnits += dragonPayout;
-            triggerCountBetCount++;
-          }
         }
         continue;
       }
@@ -197,39 +199,18 @@ function baccaratSimulation(cutCard, triggerCount = 32) {
       }
 
       settleBaccarat(playerTotal, bankerTotal);
+      settleGrandMonkey(playerCard1, playerCard2, bankerCard1, bankerCard2, playerCard3, bankerCard3);
       let dragonPayout = settleDragon7(bankerCard3, bankerTotal, playerTotal);
-      // let pandaPayout = settlePanda8(playerCard3, bankerTotal, playerTotal);
-      // if (pandaTriggered) {
-      //   pandaBetCount++;
-      //   pandaUnits += pandaPayout;
-      // }
+      let pandaPayout = settlePanda8(playerCard3, bankerTotal, playerTotal);
+      if (pandaTriggered) {
+        pandaBetCount++;
+        pandaUnits += pandaPayout;
+      }
       if (dragonTriggered) {
         dragonBetCount++;
         dragonUnits += dragonPayout;
-        if(istriggerCount){
-          triggerCountUnits += dragonPayout;
-          triggerCountBetCount++;
-        }
       }
     }
-
-    if(new Date() - currentTime > 60000) {
-      console.log("-----Dragon----------");
-      console.log(`trigger:${triggerCount}`);
-      console.log(`cutCard:${cutCard}`);
-      console.log(`unitsWon:${dragonUnits}`);
-      console.log(`Bet ${dragonBetCount} times`);
-      console.log(`Watched ${handsPlayed} rounds`);
-      console.log(`EV: ${dragonUnits / dragonBetCount}`);
-      console.log(`BetFrequency: ${dragonBetCount / handsPlayed}`);
-      console.log("-----TriggerCount----------");
-      console.log(`unitsWon:${triggerCountUnits}`);
-      console.log(`Bet ${triggerCountBetCount} times`);
-      console.log(`EV: ${triggerCountUnits / triggerCountBetCount}`);
-      console.log("\n");
-      currentTime = new Date();
-    }
-
   }
   // console.log(`After removing ${cardValueRemoved}`);
   // console.log(`hitGrandMonkey:${hitGrandMonkey}`);
@@ -239,17 +220,30 @@ function baccaratSimulation(cutCard, triggerCount = 32) {
   // console.log(`EV:${5000 * (hitGrandMonkey / handsPlayed) - (missedGrandMonkey / handsPlayed)}`);
   // console.log("\n");
   console.log("-----Dragon----------");
-  console.log(`trigger:${triggerCount}`);
   console.log(`cutCard:${cutCard}`);
   console.log(`unitsWon:${dragonUnits}`);
   console.log(`Bet ${dragonBetCount} times`);
   console.log(`Watched ${handsPlayed} rounds`);
   console.log(`EV: ${dragonUnits / dragonBetCount}`);
   console.log(`BetFrequency: ${dragonBetCount / handsPlayed}`);
-  console.log("-----Count 32----------");
-  console.log(`unitsWon:${triggerCountUnits}`);
-  console.log(`Bet ${triggerCountBetCount} times`);
-  console.log(`EV: ${triggerCountUnits / triggerCountBetCount}`);
+  console.log("\n");
+  console.log("-----Panda---------");
+  console.log(`cutCard:${cutCard}`);
+  console.log(`unitsWon:${pandaUnits}`);
+  console.log(`Bet ${pandaBetCount} times`);
+  console.log(`Watched ${handsPlayed} rounds`);
+  console.log(`EV: ${pandaUnits / pandaBetCount}`);
+  console.log(`BetFrequency: ${pandaBetCount / handsPlayed}`);
+  console.log("\n");
+  let units = dragonUnits + pandaUnits;
+  let betCount = dragonBetCount + pandaBetCount;
+  console.log("-----------combined");
+  console.log(`cutCard:${cutCard}`);
+  console.log(`unitsWon:${units}`);
+  console.log(`Bet ${betCount} times`);
+  console.log(`Watched ${handsPlayed} rounds`);
+  console.log(`EV: ${units / betCount}`);
+  console.log(`BetFrequency: ${betCount / handsPlayed}`);
   console.log("\n");
 }
 
@@ -267,11 +261,8 @@ function baccaratSimulation(cutCard, triggerCount = 32) {
 // baccaratSimulation(33, 13);
 // baccaratSimulation(33, 26);
 //baccaratSimulation(13);
-//baccaratSimulation(52);
+baccaratSimulation(26);
 //baccaratSimulation(39);
-baccaratSimulation(45,32);
-
-baccaratSimulation(45,31);
   
 
 
