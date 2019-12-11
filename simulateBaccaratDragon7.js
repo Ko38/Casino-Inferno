@@ -101,7 +101,7 @@ function baccaratSimulation(cutCard, triggerCount = 32) {
         }
 
         if (bankerTotal === 7 && bankerTotalValue > playerTotalValue) {
-          return 40;
+          return 39.8;
         }
         return -1;
       };
@@ -269,9 +269,7 @@ function baccaratSimulation(cutCard, triggerCount = 32) {
 //baccaratSimulation(13);
 //baccaratSimulation(52);
 //baccaratSimulation(39);
-baccaratSimulation(45,32);
-
-baccaratSimulation(45,31);
+baccaratSimulation(39,32);
   
 
 
