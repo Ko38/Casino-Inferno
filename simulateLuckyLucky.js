@@ -1,7 +1,7 @@
 const Deck = require("./js/blackjack/deck");
 let currentTime = new Date();
 
-function luckyLuckySimulation(triggerCount = 2) {
+function luckyLuckySimulation(triggerCount = 2, system2 = true, cutCard, suited21Payout, suited678PayOut) {
   
   let hitInsurance = 0;
   let handsPlayed = 0;
@@ -42,13 +42,13 @@ function luckyLuckySimulation(triggerCount = 2) {
     if (suited && card1.value === "7" && card2.value === "7" && card3.value === "7") {
       return 299;
     } else if (suited && sixSevenEight) {
-      return 150;
+      return suited678PayOut;
     } else if (card1.value === "7" && card2.value === "7" && card3.value === "7") {
       return 50;
     } else if (sixSevenEight) {
       return 30;
     } else if (calculateValue(card1, card2, card3) === 21 && suited) {
-      return 15;
+      return suited21Payout;
     } else if (calculateValue(card1, card2, card3) === 21) {
       return 3;
     } else if (calculateValue(card1, card2, card3) === 20) {
@@ -60,23 +60,32 @@ function luckyLuckySimulation(triggerCount = 2) {
   }
 
   let counting = (card) => {
-    if(card.value === "A" || card.value === "6"){
-      return -1;
-    } else if (card.value === "7" || card.value === "8") {
-      return -2;
-    } else if (card.value === "2" || card.value === "3" || card.value === "10"
-          || card.value === "J" || card.value === "Q" || card.value === "K") {
+    if (system2){
+      if(card.value === "A" || card.value === "6"){
+        return -1;
+      } else if (card.value === "7" || card.value === "8") {
+        return -2;
+      } else if (card.value === "2" || card.value === "3" || card.value === "10"
+            || card.value === "J" || card.value === "Q" || card.value === "K") {
+        return 1;
+      }
+      return 0;
+    } else {
+      if (card.value === "A" || card.value === "6" || card.value === "8") {
+        return -2;
+      } else if (card.value === "7"){
+        return -3;
+      } 
       return 1;
     }
-    return 0;
   }
 
   let units = 0;
   let betCount = 0;
-  for(let i = 0; i < 200000000; i++ ){
-    let deck = new Deck(6);
+  for(let i = 0; i < 100; i++ ){
+    let deck = new Deck(2);
     let count = 0;
-    while (!deck.isCutCardOut(72)) {
+    while (!deck.isCutCardOut(cutCard)) {
       let triggered = (count / deck.decksLeft()) >= triggerCount;
 
       let card1 = deck.deal();
@@ -95,20 +104,32 @@ function luckyLuckySimulation(triggerCount = 2) {
       }
     }
     if (new Date() - currentTime > 60000) {
+      console.log(`Is System 2? ${system2}`);
+      console.log(`Trigger Count:${triggerCount}`);
+      console.log(`cutCard:${cutCard}`);
+      console.log(`suited21 payout: ${suited21Payout}`);
+      console.log(`suited678Payout:${suited678PayOut}`);
       console.log(`unitsWon:${units}`);
       console.log(`Bet ${betCount} times`);
       console.log(`Watched ${handsPlayed} rounds`);   
       console.log(`EV: ${units/betCount}`);
       console.log(`BetFrequency: ${betCount/handsPlayed}`);
+      console.log("\n");
       currentTime = new Date();
     }
   }
-  console.log(`unitsWon:${units}`);
-  console.log(`Bet ${betCount} times`);
-  console.log(`Watched ${handsPlayed} rounds`);   
-  console.log(`EV: ${units/betCount}`);
-  console.log(`BetFrequency: ${betCount/handsPlayed}`);
-
+  console.log(`Is System 2? ${system2}`);
+  console.log(`Trigger Count:${triggerCount}`);
+      console.log(`cutCard:${cutCard}`);
+      console.log(`suited21 payout: ${suited21Payout}`);
+      console.log(`suited678Payout:${suited678PayOut}`);
+      console.log(`unitsWon:${units}`);
+      console.log(`Bet ${betCount} times`);
+      console.log(`Watched ${handsPlayed} rounds`);   
+      console.log(`EV: ${units/betCount}`);
+      console.log(`BetFrequency: ${betCount/handsPlayed}`);
+      console.log("\n");
+      return units;
   // console.log(`hitInsurance: ${hitInsurance}`);
   // console.log(`lostHands:${lostHands}`);
 }
@@ -132,7 +153,21 @@ function luckyLuckySimulation(triggerCount = 2) {
 // console.log(`RoR ${bankruptTimes/totalRounds}`)
 
 
-luckyLuckySimulation(2);
+// luckyLuckySimulation(3, true, 26, 10, 66+2/3);
+// luckyLuckySimulation(4, true, 26, 10, 66+2/3);
+// luckyLuckySimulation(5, true, 26, 10, 66+2/3);
+
+
+let results = [];
+for(let i = 0; i < 3000; i++){
+  results.push(luckyLuckySimulation(2,true, 25, 15, 150));
+}
+
+const losses = results.filter(x => x < 0).length;
+console.log(`Losing Rate:${losses / results.length}`);
+console.log(`[${results.join(",")}]`)
+  
+ 
 
 
 

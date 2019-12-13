@@ -58,7 +58,7 @@ function jackMagicSimulation(jackTag = -5, oneEyedJackTag = -14, triggerCount = 
 
   let units = 0;
   let betCount = 0;
-  for(let i = 0; i < 200000000; i++ ){
+  for(let i = 0; i < 500; i++ ){
     let deck = new Deck(6);
     let count = 0;
     while (!deck.isCutCardOut(78)) {
@@ -142,7 +142,7 @@ function jackMagicSimulation(jackTag = -5, oneEyedJackTag = -14, triggerCount = 
   //After removing a One-eyed: 41.2% and 26.8%
 
   // 1 -5 -14 true2
-
+  return units;
 }
 
 
@@ -183,7 +183,16 @@ function jackMagicSimulation(jackTag = -5, oneEyedJackTag = -14, triggerCount = 
 
 //jackMagicSimulation(-7, -17, 2);
 
-jackMagicSimulation(-7, -17, 4);
+let results = [];
+for(let i = 0; i < 3000; i++){
+  results.push(jackMagicSimulation(-7, -17, 4));
+}
+
+const losses = results.filter(x => x < 0).length;
+console.log(`Losing Rate:${losses / results.length}`);
+console.log(`[${results.join(",")}]`)
+  
+
 
 
 // jack: -7 oneEyedJ: -17 triggerCount: 2:
