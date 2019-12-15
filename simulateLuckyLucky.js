@@ -1,7 +1,7 @@
 const Deck = require("./js/blackjack/deck");
 let currentTime = new Date();
 
-function luckyLuckySimulation(triggerCount = 2, system2 = true, cutCard, suited21Payout, suited678PayOut) {
+function luckyLuckySimulation(triggerCount = 2, system2 = true, cutCard, suited21Payout, suited678PayOut, bankroll) {
   
   let hitInsurance = 0;
   let handsPlayed = 0;
@@ -82,7 +82,7 @@ function luckyLuckySimulation(triggerCount = 2, system2 = true, cutCard, suited2
 
   let units = 0;
   let betCount = 0;
-  for(let i = 0; i < 100; i++ ){
+  for(let i = 0; i < 2000000; i++ ){
     let deck = new Deck(2);
     let count = 0;
     while (!deck.isCutCardOut(cutCard)) {
@@ -98,23 +98,26 @@ function luckyLuckySimulation(triggerCount = 2, system2 = true, cutCard, suited2
       if (triggered) {
         betCount++;
         units += payout;
+        if(units < -bankroll){
+          return units;
+        }
         // if(units <= -200){
         //   return true;
         // }
       }
     }
     if (new Date() - currentTime > 60000) {
-      console.log(`Is System 2? ${system2}`);
-      console.log(`Trigger Count:${triggerCount}`);
-      console.log(`cutCard:${cutCard}`);
-      console.log(`suited21 payout: ${suited21Payout}`);
-      console.log(`suited678Payout:${suited678PayOut}`);
-      console.log(`unitsWon:${units}`);
-      console.log(`Bet ${betCount} times`);
-      console.log(`Watched ${handsPlayed} rounds`);   
-      console.log(`EV: ${units/betCount}`);
-      console.log(`BetFrequency: ${betCount/handsPlayed}`);
-      console.log("\n");
+      // console.log(`Is System 2? ${system2}`);
+      // console.log(`Trigger Count:${triggerCount}`);
+      // console.log(`cutCard:${cutCard}`);
+      // console.log(`suited21 payout: ${suited21Payout}`);
+      // console.log(`suited678Payout:${suited678PayOut}`);
+      // console.log(`unitsWon:${units}`);
+      // console.log(`Bet ${betCount} times`);
+      // console.log(`Watched ${handsPlayed} rounds`);   
+      // console.log(`EV: ${units/betCount}`);
+      // console.log(`BetFrequency: ${betCount/handsPlayed}`);
+      // console.log("\n");
       currentTime = new Date();
     }
   }
@@ -159,9 +162,9 @@ function luckyLuckySimulation(triggerCount = 2, system2 = true, cutCard, suited2
 
 
 let results = [];
-for(let i = 0; i < 3000; i++){
-  results.push(luckyLuckySimulation(2,true, 25, 15, 150));
-}
+// for(let i = 0; i < 3000; i++){
+  results.push(luckyLuckySimulation(2,true, 52, 15, 100, 300));
+// }
 
 const losses = results.filter(x => x < 0).length;
 console.log(`Losing Rate:${losses / results.length}`);
