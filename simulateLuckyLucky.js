@@ -162,9 +162,9 @@ function luckyLuckySimulation(triggerCount = 2, system2 = true, cutCard, suited2
 
 
 let results = [];
-// for(let i = 0; i < 3000; i++){
+for(let i = 0; i < 3000; i++){
   results.push(luckyLuckySimulation(2,true, 52, 15, 100, 300));
-// }
+}
 
 const losses = results.filter(x => x < 0).length;
 console.log(`Losing Rate:${losses / results.length}`);
