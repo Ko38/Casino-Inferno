@@ -52,7 +52,7 @@ function baccaratSimulation(triggerCount) {
 
   let units = 0;
   let betCount = 0;
-  for(let i = 0; i < 10000000; i++ ){
+  for(let i = 0; i < 100000; i++ ){
     let deck = new Deck(8);
     // if (cardValueRemoved){
     //   deck.removeNCards(cardValueRemoved, 8);
@@ -106,10 +106,10 @@ function baccaratSimulation(triggerCount) {
         let bankerTotal = getBaccaratActualValue(bankerCard1.faceValue() + bankerCard2.faceValue());
         if(playerTotal === 8 && bankerTotal === 9) {
           hitN9BeatsN8++;
-          return 50;
+          return 45;
         } else if (bankerTotal === 8 && playerTotal === 9) {
           hitN9BeatsN8++;
-          return 50;
+          return 45;
         } else {
           missedN9BeatsN8++;
           return -1;
@@ -204,7 +204,14 @@ function baccaratSimulation(triggerCount) {
 //   baccaratSimulation(i);
 // }
 
-baccaratSimulation(6);
+baccaratSimulation(9);
+baccaratSimulation(10);
+baccaratSimulation(11);
+baccaratSimulation(12);
+baccaratSimulation(13);
+baccaratSimulation(14);
+baccaratSimulation(15);
+
 
 
 

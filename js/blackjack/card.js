@@ -7,6 +7,18 @@ class Card {
     this.value = value;
   }
 
+  isEight() {
+    return this.value === "8";
+  }
+
+  isEightOfDiamonds(){
+    return this.value === "8" && this.suit === "diamonds";
+  }
+
+  isRedEight(){
+    return this.value === "8" && (this.suit === "diamonds" || this.suit === "hearts");
+  }
+
   isJack() {
     return this.value === "J";
   }
