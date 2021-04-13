@@ -1,7 +1,7 @@
 const Deck = require("./js/blackjack/deck");
 // 1 3 7 50 100 500
 //one eyed - spades hearts
-function baccaratSimulation(triggerTrueCount, bankrollSize) {
+function baccaratSimulation(cardValueRemoved, triggerTrueCount, bankrollSize) {
   
   let hitGrandMonkey = 0;
   let missedGrandMonkey = 0;
@@ -15,13 +15,14 @@ function baccaratSimulation(triggerTrueCount, bankrollSize) {
  
 
   let counting = (card) => {
-    if(card.value === "A" || card.value === "5" || card.value === "6" || card.value === "7" || card.value === "10" ||
-    card.value === "2" || card.value === "3" || card.value === "4" ) {
+    if(card.value === "A" || card.value === "10" ) {
       return 1;
     } else if (card.value === "8" || card.value === "9") {
-      return 2;
-    } else if (card.value === "J" || card.value === "Q" || card.value === "K") {
-      return -4;
+      return 3;
+    } else if (card.value === "4") {
+      return -1;
+    } else if (card.value === "7") {
+      return -7;
     }
     return 0;
   };
@@ -55,11 +56,11 @@ function baccaratSimulation(triggerTrueCount, bankrollSize) {
 
   let units = 0;
   let betCount = 0;
-  for(let i = 0; i < 3000000; i++ ){
+  for(let i = 0; i < 500; i++ ){
     let deck = new Deck(8);
-    // if (cardValueRemoved){
-    //   deck.removeNCards(cardValueRemoved, 8);
-    // }
+    if (cardValueRemoved){
+      deck.removeNCards(cardValueRemoved, 8);
+    }
     
     let count = 0;
     while (!deck.isCutCardOut(26)) {
@@ -87,13 +88,18 @@ function baccaratSimulation(triggerTrueCount, bankrollSize) {
         handsPlayed++;
       };
 
-      let settlePicturePicture = (playerCard1, playerCard2, bankerCard1, bankerCard2, playerCard3, bankerCard3) => {
-        if(!bankerCard3){
-          return -1;
+      let settleBlazing7s = (playerCard1, playerCard2, bankerCard1, bankerCard2, playerCard3, bankerCard3) => {
+        if(bankerCard3 && playerCard3 && 
+          getBaccaratActualValue(playerCard1.faceValue() + playerCard2.faceValue() + playerCard3.faceValue()) === 7 &&
+          getBaccaratActualValue(bankerCard1.faceValue() + bankerCard2.faceValue() + bankerCard3.faceValue()) === 7
+          ){
+          return 200;
         }
-        if(bankerCard3.value === "J" || bankerCard3.value === "Q" || bankerCard3.value === "K") {
-          return 8;
-        }
+        if(!bankerCard3 && !playerCard3 && 
+          getBaccaratActualValue(playerCard1.faceValue() + playerCard2.faceValue()) === 7 &&
+          getBaccaratActualValue(bankerCard1.faceValue() + bankerCard2.faceValue()) === 7) {
+            return 50;
+          }
         return -1;
       };
 
@@ -104,13 +110,13 @@ function baccaratSimulation(triggerTrueCount, bankrollSize) {
 
       if (playerTotal >= 8 || bankerTotal >= 8) {
         settleBaccarat(playerTotal, bankerTotal);
-        let payout = settlePicturePicture(playerCard1, playerCard2, bankerCard1, bankerCard2, undefined, undefined);
-        if(triggered){
+        let payout = settleBlazing7s(playerCard1, playerCard2, bankerCard1, bankerCard2, undefined, undefined);
+        if(triggerTrueCount && triggered){
           units += payout;
           betCount++;
         }
-        if(bankrollSize + units <= 0){
-          // return units;
+        if(bankrollSize &&  bankrollSize + units <= 0){
+           return units;
         }
         
         continue;
@@ -144,19 +150,22 @@ function baccaratSimulation(triggerTrueCount, bankrollSize) {
       }
 
       settleBaccarat(playerTotal, bankerTotal);
-      let payout = settlePicturePicture(playerCard1, playerCard2, bankerCard1, bankerCard2, playerCard3, bankerCard3);
-      if(triggered){
+      let payout = settleBlazing7s(playerCard1, playerCard2, bankerCard1, bankerCard2, playerCard3, bankerCard3);
+      if(triggerTrueCount && triggered){
         units += payout;
         betCount++;
       }
-      if(bankrollSize + units <= 0){
-        // return units;
+      if(bankrollSize && bankrollSize + units <= 0){
+        return units;
       }
       
     }
   }
-  // return units;
-  //console.log(`After removing ${cardValueRemoved}`);
+  if(bankrollSize){
+    return units;
+
+  }
+  console.log(`After removing ${cardValueRemoved}`);
   console.log(`triggerCount:${triggerTrueCount}`);
   console.log(`unitsWon:${units}`);
   console.log(`Bet ${betCount} times`);
@@ -174,84 +183,63 @@ function baccaratSimulation(triggerTrueCount, bankrollSize) {
 // baccaratSimulation(9, 500);
 // baccaratSimulation(10, 500);
 
-for (let value of ["A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J"]){
-  
-}
 
-// for(let units of [150,200,300,400]){
-//   let a = [];
-//   for(let i = 0; i < 3000; i++){
-//     a.push(baccaratSimulation(10, units));
-//   }
-//   console.log(`units:${units}`);
-//   console.log(`ROR:${a.filter(x => x <= -units).length/3000}`);
+
+
+
+// for (let value of ["7", "8", "9", "10", "J"]){
+//   baccaratSimulation(value, 10, 500);
 // }
+
+for(let units of [900,1000,1100,1200,1300,1400,1500]){
+  let a = [];
+  for(let i = 0; i < 3000; i++){
+    a.push(baccaratSimulation(undefined, 6, units));
+  }
+  console.log(`units:${units}`);
+  console.log(`ROR:${a.filter(x => x <= -units).length/3000}`);
+}
 // for (let value of ["8", "J"]) {
 //   baccaratSimulation(value);
 // }
 
 //baccaratSimulation(4);
-baccaratSimulation(7, 500);
-//baccaratSimulation(6);
+baccaratSimulation(5);
+baccaratSimulation(6);
 
 // baccaratSimulation();
 
-//wizard of odds EV: -0.3322
-//after removing A~10: -0.232 EOR: 0.10
-//after removing J: -0.48641754018271954  EOR: -0.15
+
+// unitsWon:-18784406
+// Bet 238742360 times
+// Watched 238742360 rounds
+// EV: -0.07868065809519517
+// BetFrequency: 1
+
+//A Removed: -0.06272
+//2 Removed: -0.0857639
+//3 Removed: -0.09229598
+//4 Removed: -0.0943697798
+//5 Removed: -0.08973044367967
+//6 Removed: -0.08343938979
+//7 Removed: -0.188162
+//8 Removed: -0.039132
+//9 Removed: -0.0398096
+//10Removed: -0.055611413
 
 
-//EV -0.09624
-
-//A removed: -0.0822766  EOR: 
-//2 removed: -0.08695422
-//3 removed: -0.08634
-//4 removed: -0.08510
-//5 removed: -0.07745
-//6 removed: -0.07605
-//7 removed: -0.07635
-//8 removed: -0.05101328
-//9 removed: -0.05686
-//10 removed: -0.0821
-//J removed: -0.160089859367
-
-// A	-0.09624	-0.0822766	0.0139634	           0.01	   1	 1
-// 2	-0.09624	-0.08695422	0.00928578          	0.01	 0	
-// 3	-0.09624	-0.08634	0.0099	               0.01	   1	
-// 4	-0.09624	-0.0851	0.01114	                 0.01	   1	
-// 5	-0.09624	-0.07745	0.01879	               0.02	   2	 1
-// 6	-0.09624	-0.07605	0.02019	               0.02	   2	 1
-// 7	-0.09624	-0.07635	0.01989	               0.02	   2	 1
-// 8	-0.09624	-0.05101328	0.04522672          	0.4	   4	 2
-// 9	-0.09624	-0.05686	0.03938	               0.4	   4	 2
-// 10	-0.09624	-0.0821	0.01414	                 0.015	 1	 1
-// J	-0.09624	-0.160089859367	-0.063849859367	-0.06	  -6	-3
-// Q	-0.09624	-0.160089859367	-0.063849859367	-0.06	  -6	-3
-// K	-0.09624	-0.160089859367	-0.063849859367	-0.06	  -6	-3
-// triggerCount:10
-// unitsWon:3608382
-// Bet 31952409 times
-// Watched 238740112 rounds
-// EV: 0.1129298889482793
-// BetFrequency: 0.13383762256088746
+// triggerCount:6
+// unitsWon:1390963
+// Bet 11927978 times
+// Watched 79578272 rounds
+// EV: 0.11661347799266565
+// BetFrequency: 0.14988988451521038
 
 
-// A 1
-// 2 0
-// 3 0
-// 4 0	
-// 5 1
-// 6 1
-// 7 1
-// 8 2
-// 9 2
-// 10 1
-// J -3
-// Q -3
-// K -3
-// triggerCount:5
-// unitsWon:3508361
-// Bet 32489884 times
-// Watched 238737359 rounds
-// EV: 0.1079831802415792
-// BetFrequency: 0.13609048929790665
+
+// triggerCount:6
+// unitsWon:4206339
+// Bet 35774925 times
+// Watched 238738322 rounds
+// EV: 0.11757785655735127
+// BetFrequency: 0.14984994742486293
