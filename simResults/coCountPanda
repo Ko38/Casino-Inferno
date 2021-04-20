@@ -1,0 +1,18 @@
+From DiscountGambling:
+Panda-8 Co-Count (Add to Dragon-7 Unbalanced RC, Bet When Combined RC >= 35)
+Rank	Count
+Six, Seven, King, Queen	+1
+Trey	-1
+Eight	-3
+Unbalanced Dragon-7 Count (Bet for RC >= 32)
+Rank	Count
+Four, Five, Six, Seven	-1
+Eight, Nine	+2
+Ace	+1
+
+cutCard:39
+unitsWon:357179
+Bet 15394557 times
+Watched 384742610 rounds
+EV: 0.023201641982942414
+BetFrequency: 0.04001261258793249
