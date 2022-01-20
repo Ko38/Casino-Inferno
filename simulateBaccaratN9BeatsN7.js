@@ -15,9 +15,11 @@ function baccaratSimulation(triggerCount) {
  
 
   let counting = (card) => {
-    if(card.value === "9" || card.value === "7"){
-      return -5.5;
-    } 
+    if(card.value === "9" ){
+      return -6;
+    } else if (card.value === "7"){
+      return -5;
+    }
     return 1;
   };
 
@@ -57,7 +59,7 @@ function baccaratSimulation(triggerCount) {
     // }
     
     let count = 0;
-    while (!deck.isCutCardOut(26)) {
+    while (!deck.isCutCardOut(42)) {
       let triggered = (count / deck.decksLeft()) >= triggerCount;
       // let triggered = false;
       let playerCard1 = deck.deal();

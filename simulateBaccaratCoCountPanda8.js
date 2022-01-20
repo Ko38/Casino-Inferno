@@ -230,7 +230,7 @@ function baccaratSimulation(cutCard, bankroll) {
 // baccaratSimulation(33, 13);
 // baccaratSimulation(33, 26);
 //baccaratSimulation(13);
-baccaratSimulation(39);
+baccaratSimulation(10);
 //baccaratSimulation(39);
   
 

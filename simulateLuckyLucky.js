@@ -40,7 +40,7 @@ function luckyLuckySimulation(triggerCount = 2, system2 = true, cutCard, suited2
       (card1.value === "8" && card2.value === "7" && card3.value === "6");
 
     if (suited && card1.value === "7" && card2.value === "7" && card3.value === "7") {
-      return 299;
+      return 200;
     } else if (suited && sixSevenEight) {
       return suited678PayOut;
     } else if (card1.value === "7" && card2.value === "7" && card3.value === "7") {
@@ -82,8 +82,8 @@ function luckyLuckySimulation(triggerCount = 2, system2 = true, cutCard, suited2
 
   let units = 0;
   let betCount = 0;
-  for(let i = 0; i < 2000000; i++ ){
-    let deck = new Deck(2);
+  for(let i = 0; i < 1000000; i++ ){
+    let deck = new Deck(6);
     let count = 0;
     while (!deck.isCutCardOut(cutCard)) {
       let triggered = (count / deck.decksLeft()) >= triggerCount;
@@ -163,7 +163,7 @@ function luckyLuckySimulation(triggerCount = 2, system2 = true, cutCard, suited2
 
 let results = [];
 for(let i = 0; i < 3000; i++){
-  results.push(luckyLuckySimulation(2,true, 52, 15, 100, 300));
+  results.push(luckyLuckySimulation(4,true, 52, 10, 100, 300));
 }
 
 const losses = results.filter(x => x < 0).length;
