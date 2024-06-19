@@ -67,7 +67,7 @@ function baccaratSimulation(cutCard, triggerCount = 32, bankroll=500) {
   let triggerCountBetCount = 0;
   let dragonBetCount = 0;
   let pandaBetCount = 0;
-  for(let i = 0; i < 20000000; i++ ){
+  for(let i = 0; i < 300; i++ ){
     
     let deck = new Deck(8);
     // if (cardValueRemoved){
@@ -107,7 +107,7 @@ function baccaratSimulation(cutCard, triggerCount = 32, bankroll=500) {
         }
 
         if (bankerTotal === 7 && bankerTotalValue > playerTotalValue) {
-          return 40;
+          return 39.8;
         }
         return -1;
       };
@@ -225,22 +225,22 @@ function baccaratSimulation(cutCard, triggerCount = 32, bankroll=500) {
       }
     }
 
-    if(new Date() - currentTime > 60000) {
-      console.log("-----Dragon----------");
-      console.log(`trigger:${triggerCount}`);
-      console.log(`cutCard:${cutCard}`);
-      console.log(`unitsWon:${dragonUnits}`);
-      console.log(`Bet ${dragonBetCount} times`);
-      console.log(`Watched ${handsPlayed} rounds`);
-      console.log(`EV: ${dragonUnits / dragonBetCount}`);
-      console.log(`BetFrequency: ${dragonBetCount / handsPlayed}`);
-      console.log("-----TriggerCount----------");
-      console.log(`unitsWon:${triggerCountUnits}`);
-      console.log(`Bet ${triggerCountBetCount} times`);
-      console.log(`EV: ${triggerCountUnits / triggerCountBetCount}`);
-      console.log("\n");
-      currentTime = new Date();
-    }
+    // if(new Date() - currentTime > 60000) {
+    //   console.log("-----Dragon----------");
+    //   console.log(`trigger:${triggerCount}`);
+    //   console.log(`cutCard:${cutCard}`);
+    //   console.log(`unitsWon:${dragonUnits}`);
+    //   console.log(`Bet ${dragonBetCount} times`);
+    //   console.log(`Watched ${handsPlayed} rounds`);
+    //   console.log(`EV: ${dragonUnits / dragonBetCount}`);
+    //   console.log(`BetFrequency: ${dragonBetCount / handsPlayed}`);
+    //   console.log("-----TriggerCount----------");
+    //   console.log(`unitsWon:${triggerCountUnits}`);
+    //   console.log(`Bet ${triggerCountBetCount} times`);
+    //   console.log(`EV: ${triggerCountUnits / triggerCountBetCount}`);
+    //   console.log("\n");
+    //   currentTime = new Date();
+    // }
     
   }
   // console.log(`After removing ${cardValueRemoved}`);
@@ -252,20 +252,20 @@ function baccaratSimulation(cutCard, triggerCount = 32, bankroll=500) {
   // console.log("\n");
 
 
-  console.log("-----Dragon----------");
-  console.log(`trigger:${triggerCount}`);
-  console.log(`cutCard:${cutCard}`);
-  console.log(`unitsWon:${dragonUnits}`);
-  console.log(`unitsWon/Shoe:${dragonUnits/2000000}`);
-  console.log(`Bet ${dragonBetCount} times`);
-  console.log(`Watched ${handsPlayed} rounds`);
-  console.log(`EV: ${dragonUnits / dragonBetCount}`);
-  console.log(`BetFrequency: ${dragonBetCount / handsPlayed}`);
-  console.log("-----Count 32----------");
-  console.log(`unitsWon:${triggerCountUnits}`);
-  console.log(`Bet ${triggerCountBetCount} times`);
-  console.log(`EV: ${triggerCountUnits / triggerCountBetCount}`);
-  console.log("\n");
+  // console.log("-----Dragon----------");
+  // console.log(`trigger:${triggerCount}`);
+  // console.log(`cutCard:${cutCard}`);
+  // console.log(`unitsWon:${dragonUnits}`);
+  // console.log(`unitsWon/Shoe:${dragonUnits/2000000}`);
+  // console.log(`Bet ${dragonBetCount} times`);
+  // console.log(`Watched ${handsPlayed} rounds`);
+  // console.log(`EV: ${dragonUnits / dragonBetCount}`);
+  // console.log(`BetFrequency: ${dragonBetCount / handsPlayed}`);
+  // console.log("-----Count 32----------");
+  // console.log(`unitsWon:${triggerCountUnits}`);
+  // console.log(`Bet ${triggerCountBetCount} times`);
+  // console.log(`EV: ${triggerCountUnits / triggerCountBetCount}`);
+  // console.log("\n");
   return dragonUnits;
 }
 
@@ -296,8 +296,14 @@ function baccaratSimulation(cutCard, triggerCount = 32, bankroll=500) {
 // console.log(`[${results.join(",")}]`)
 // baccaratSimulation(13,32)
 // baccaratSimulation(26,32)
-baccaratSimulation(39,32)
 
+let results = [];
+for (let i = 0; i < 10000; i++){
+  results.push(baccaratSimulation(39,32));
+}
+
+
+console.log(`[${results.join(",")}]`);
 
 //wizard of odds EV: -0.3322
 //after removing A~10: -0.232 EOR: 0.10
