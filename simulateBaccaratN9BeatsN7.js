@@ -1,6 +1,8 @@
 const Deck = require("./js/blackjack/deck");
 // 1 3 7 50 100 500
 //one eyed - spades hearts
+let currentTime = new Date();
+
 function baccaratSimulation(triggerCount) {
   
   let hitGrandMonkey = 0;
@@ -11,7 +13,6 @@ function baccaratSimulation(triggerCount) {
   let bankerWin = 0;
   let playerWin = 0;
   let tie = 0;
-
  
 
   let counting = (card) => {
@@ -52,7 +53,7 @@ function baccaratSimulation(triggerCount) {
 
   let units = 0;
   let betCount = 0;
-  for(let i = 0; i < 1000000; i++ ){
+  for(let i = 0; i < 2000000; i++ ){
     let deck = new Deck(8);
     // if (cardValueRemoved){
     //   deck.removeNCards(cardValueRemoved, 8);
@@ -106,10 +107,10 @@ function baccaratSimulation(triggerCount) {
         let bankerTotal = getBaccaratActualValue(bankerCard1.faceValue() + bankerCard2.faceValue());
         if(playerTotal === 7 && bankerTotal === 9) {
           hitN9BeatsN8++;
-          return 50;
+          return 49.75;
         } else if (bankerTotal === 7 && playerTotal === 9) {
           hitN9BeatsN8++;
-          return 50;
+          return 49.75;
         } else {
           missedN9BeatsN8++;
           return -1;
@@ -168,15 +169,15 @@ function baccaratSimulation(triggerCount) {
         units += payout;
       }
     }
+      
   }
   console.log(`triggerCount:${triggerCount}`);
-  console.log(`unitsWon:${units}`);
-  console.log(`Bet ${betCount} times`);
-  console.log(`Watched ${handsPlayed} rounds`);
-  console.log(`EV: ${units / betCount}`);
-  console.log(`BetFrequency: ${betCount / handsPlayed}`);
-  console.log("\n");
-
+      console.log(`unitsWon:${units}`);
+      console.log(`Bet ${betCount} times`);
+      console.log(`Watched ${handsPlayed} rounds`);
+      console.log(`EV: ${units / betCount}`);
+      console.log(`BetFrequency: ${betCount / handsPlayed}`);
+      console.log("\n");
 
   // console.log(`hitN9BeatsN8:${hitN9BeatsN8}`);
   // console.log(`missedN9BeatsN8:${missedN9BeatsN8}`);
@@ -203,7 +204,6 @@ function baccaratSimulation(triggerCount) {
 // for(let i = 4; i < 10; i++) {
 //   baccaratSimulation(i);
 // }
-
 baccaratSimulation(6.5);
 
 
