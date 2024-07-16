@@ -13,7 +13,6 @@ function baccaratSimulation(triggerCount) {
   let bankerWin = 0;
   let playerWin = 0;
   let tie = 0;
- 
 
   let counting = (card) => {
     if(card.value === "9" ){
@@ -53,14 +52,14 @@ function baccaratSimulation(triggerCount) {
 
   let units = 0;
   let betCount = 0;
-  for(let i = 0; i < 20000000; i++ ){
+  for(let i = 0; i < 2000000; i++ ){
     let deck = new Deck(8);
     // if (cardValueRemoved){
     //   deck.removeNCards(cardValueRemoved, 8);
     // }
     
     let count = 0;
-    while (!deck.isCutCardOut(42)) {
+    while (!deck.isCutCardOut(48)) {
       let triggered = (count / deck.decksLeft()) >= triggerCount;
       // let triggered = false;
       let playerCard1 = deck.deal();
@@ -189,8 +188,8 @@ function baccaratSimulation(triggerCount) {
       console.log(`BetFrequency: ${betCount / handsPlayed}`);
       console.log("\n");
 
-  // console.log(`hitN9BeatsN8:${hitN9BeatsN8}`);
-  // console.log(`missedN9BeatsN8:${missedN9BeatsN8}`);
+   console.log(`hitN9BeatsN8:${hitN9BeatsN8}`);
+   console.log(`missedN9BeatsN8:${missedN9BeatsN8}`);
   // console.log(`hands:${handsPlayed}`);
   // console.log(`grandMonkeyProbability: ${hitN9BeatsN8 / handsPlayed}`);
   // console.log(`EV:${50 * (hitN9BeatsN8 / handsPlayed) - (missedN9BeatsN8 / handsPlayed)}`);
@@ -215,7 +214,6 @@ function baccaratSimulation(triggerCount) {
 //   baccaratSimulation(i);
 // }
 baccaratSimulation(6.5);
-
 
 
 

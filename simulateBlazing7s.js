@@ -11,11 +11,12 @@ function baccaratSimulation(cardValueRemoved, triggerTrueCount, bankrollSize) {
   let bankerWin = 0;
   let playerWin = 0;
   let tie = 0;
-
- 
+  let threecard7 = 0;
+  let twocard7 = 0;
+  let missed = 0;
 
   let counting = (card) => {
-    if(card.value === "A" || card.value === "10" ) {
+    if(card.value === "A" || card.value === "10") {
       return 1;
     } else if (card.value === "8" || card.value === "9") {
       return 3;
@@ -56,15 +57,16 @@ function baccaratSimulation(cardValueRemoved, triggerTrueCount, bankrollSize) {
 
   let units = 0;
   let betCount = 0;
-  for(let i = 0; i < 500; i++ ){
+  for(let i = 0; i < 2000000; i++ ){
     let deck = new Deck(8);
     if (cardValueRemoved){
       deck.removeNCards(cardValueRemoved, 8);
     }
     
     let count = 0;
-    while (!deck.isCutCardOut(26)) {
+    while (!deck.isCutCardOut(48)) {
       
+     // let triggered = count >= triggerTrueCount;
       let triggered = count / deck.decksLeft() >= triggerTrueCount;
       let playerCard1 = deck.deal();
       let bankerCard1 = deck.deal();
@@ -93,13 +95,16 @@ function baccaratSimulation(cardValueRemoved, triggerTrueCount, bankrollSize) {
           getBaccaratActualValue(playerCard1.faceValue() + playerCard2.faceValue() + playerCard3.faceValue()) === 7 &&
           getBaccaratActualValue(bankerCard1.faceValue() + bankerCard2.faceValue() + bankerCard3.faceValue()) === 7
           ){
+            threecard7++;
           return 200;
         }
         if(!bankerCard3 && !playerCard3 && 
           getBaccaratActualValue(playerCard1.faceValue() + playerCard2.faceValue()) === 7 &&
           getBaccaratActualValue(bankerCard1.faceValue() + bankerCard2.faceValue()) === 7) {
+            twocard7++;
             return 50;
           }
+          missed++;
         return -1;
       };
 
@@ -172,6 +177,11 @@ function baccaratSimulation(cardValueRemoved, triggerTrueCount, bankrollSize) {
   console.log(`Watched ${handsPlayed} rounds`);
   console.log(`EV: ${units / betCount}`);
   console.log(`BetFrequency: ${betCount / handsPlayed}`);
+  console.log("\n");
+
+  console.log(`3 card 7s:${threecard7}`)
+console.log(`2 card 7s:${twocard7}`)
+console.log(`missed:${missed}}`)
   // console.log(`hitGrandMonkey:${hitGrandMonkey}`);
   // console.log(`missedGrandMonkey:${missedGrandMonkey}`);
   // console.log(`hands:${handsPlayed}`);
@@ -191,21 +201,30 @@ function baccaratSimulation(cardValueRemoved, triggerTrueCount, bankrollSize) {
 //   baccaratSimulation(value, 10, 500);
 // }
 
-for(let units of [900,1000,1100,1200,1300,1400,1500]){
-  let a = [];
-  for(let i = 0; i < 3000; i++){
-    a.push(baccaratSimulation(undefined, 6, units));
-  }
-  console.log(`units:${units}`);
-  console.log(`ROR:${a.filter(x => x <= -units).length/3000}`);
-}
+// for(let units of [900,1000,1100,1200,1300,1400,1500]){
+//   let a = [];
+//   for(let i = 0; i < 3000; i++){
+//     a.push(baccaratSimulation(undefined, 6, units));
+//   }
+//   console.log(`units:${units}`);
+//   console.log(`ROR:${a.filter(x => x <= -units).length/3000}`);
+// }
+
+
 // for (let value of ["8", "J"]) {
 //   baccaratSimulation(value);
 // }
 
 //baccaratSimulation(4);
-baccaratSimulation(5);
-baccaratSimulation(6);
+//baccaratSimulation(5);
+// baccaratSimulation(undefined, 30);
+// baccaratSimulation(undefined, 31);
+// baccaratSimulation(undefined, 32);
+// baccaratSimulation(undefined, 33);
+// baccaratSimulation(undefined, 34);
+
+
+baccaratSimulation(undefined, 6);
 
 // baccaratSimulation();
 
