@@ -12,6 +12,7 @@ class Deck {
     for(let i = 0; i < card.faceValue; i++){
       this.cards.shift();
     }
+    return card;
   }
 
   shuffle() {
@@ -76,7 +77,7 @@ class Deck {
   }
 
   isCutCardOut(num = 26) {
-    return this.cards.length < num;
+    return this.cards.length <= num;
   }
 
   isOverRounds(rounds = 76) {
