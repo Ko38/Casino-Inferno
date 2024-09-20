@@ -208,5 +208,5 @@ function baccaratSimulation(numOfShoes = 20000000, constDragonPayout = 40, cutCa
   return dragonUnits;
 }
 
-baccaratSimulation(200000000, 39.75);
+baccaratSimulation(200000000, 40, 14, 14, 33);
 

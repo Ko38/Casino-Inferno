@@ -4,12 +4,14 @@ class Deck {
   constructor(numOfDecks) {
     this.numOfDecks = numOfDecks;
     this.shuffle();
-    this.numOfRounds = 0;
+    this.roundOnBoard = 0;
+    this.burnedNumOfCards = 0;
   }
 
   baccaratBurn() {
     let card = this.cards.shift();
-    for(let i = 0; i < card.faceValue; i++){
+    this.burnedNumOfCards = card.faceValue();
+    for(let i = 0; i < this.burnedNumOfCards; i++){
       this.cards.shift();
     }
     return card;
@@ -81,7 +83,7 @@ class Deck {
   }
 
   isOverRounds(rounds = 76) {
-    return this.numOfRounds >= rounds;
+    return this.roundOnBoard >= rounds;
   }
 
   cardsLeft() {
@@ -89,11 +91,11 @@ class Deck {
   }
 
   decksLeftEstimatedByRounds() {
-    return (52*8 - this.numOfRounds*4.94) / 52;
+    return (52*8 - this.roundOnBoard*4.94 - 1) / 52;
   }
 
   decksLeft() {
-    return this.cardsLeft() / 52;
+    return (this.burnedNumOfCards + this.cardsLeft()) / 52;
   }
 }
 module.exports = Deck;
